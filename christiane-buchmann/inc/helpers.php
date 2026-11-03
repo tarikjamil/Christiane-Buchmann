@@ -111,6 +111,9 @@ function cb_upload($path)
     if ($path === '' || preg_match('#^https?://#', $path)) {
         return $path;
     }
+    if (strpos($path, 'images/') === 0) {
+        return cb_asset($path);
+    }
     return cb_url($path);
 }
 

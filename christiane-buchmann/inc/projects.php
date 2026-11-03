@@ -2,7 +2,8 @@
 /**
  * Every project on the site. Order here is the order on the Work page.
  * category: narrative | music-video | commercial | documentary
- * videos: provider is vimeo or youtube. Images are paths under /wp-content/uploads.
+ * videos: provider is vimeo or youtube. Images are paths under /wp-content/uploads, or images/... inside this theme.
+ * image_credit: optional photo credit shown on the project page.
  * Set 'draft' => true to keep a project off the Work page and out of the sitemap.
  * Optional 'name' sets the exact title used in search results when the uppercase title can't be cased automatically.
  */
@@ -10,7 +11,6 @@
 return array(
     array(
         'slug' => 'erinner-mich-an-morgen',
-        'draft' => true,
         'name' => 'Erinner mich an morgen',
         'category' => 'narrative',
         'title' => 'ERINNER MICH AN MORGEN',
@@ -38,11 +38,11 @@ return array(
             'Commissioning Editor: Sabine Holtgreve',
         ),
         'crew_united' => 'https://www.crew-united.com/de/Erinner-mich-an-morgen__343501.html',
-        'image' => '',
+        'image' => 'images/projects/erinner-mich-an-morgen.jpg',
+        'image_credit' => '© NDR/Thomas Leidig',
     ),
     array(
         'slug' => 'weihnachten-in-sommerby',
-        'draft' => true,
         'category' => 'narrative',
         'title' => 'WEIHNACHTEN IN SOMMERBY',
         'subtitle' => 'Sommerby',
@@ -68,7 +68,8 @@ return array(
             'Commissioning Editor: Lene Neckel (SWR), Sandra Le Blanc-Marissal (NDR), Lina Kokaly (Radio Bremen)',
         ),
         'crew_united' => 'https://www.crew-united.com/de/Weihnachten-in-Sommerby__361266.html',
-        'image' => '',
+        'image' => 'images/projects/weihnachten-in-sommerby.jpg',
+        'image_credit' => '© SWR',
     ),
     array(
         'slug' => 'falsches-spiel-false-game',

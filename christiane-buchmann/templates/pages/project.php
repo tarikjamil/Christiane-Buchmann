@@ -58,6 +58,9 @@ include cb_theme_dir() . '/templates/nav.php';
           <?php endforeach; ?>
         </div>
         <p class="_24topmargin"><?php cb_e($project['details']); ?></p>
+        <?php if (!empty($project['image_credit'])) : ?>
+        <p class="project_image_credit">Photo: <?php cb_e($project['image_credit']); ?></p>
+        <?php endif; ?>
       </div>
       <div class="largecontainer _24topmargin">
         <?php if ($project['credits']) : ?>

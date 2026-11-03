@@ -22,7 +22,10 @@ def projects():
 
 def image_size(path):
     os.makedirs(CACHE, exist_ok=True)
-    local = os.path.join(CACHE, hashlib.md5(path.encode()).hexdigest())
+    if path.startswith("images/"):
+        local = os.path.join(THEME, path)
+    else:
+        local = os.path.join(CACHE, hashlib.md5(path.encode()).hexdigest())
     if not os.path.exists(local):
         urllib.request.urlretrieve(LIVE + urllib.parse.quote(path), local)
     info = subprocess.check_output(["sips", "-g", "pixelWidth", "-g", "pixelHeight", local]).decode()

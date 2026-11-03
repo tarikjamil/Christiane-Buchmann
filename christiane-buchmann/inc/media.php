@@ -56,6 +56,8 @@ return array(
         '/wp-content/uploads/2025/09/Tatort-Kaelte-der-Erde4-Kopie-scaled-e1722769763899.jpg' => array(2560, 1629),
         '/wp-content/uploads/2025/09/falsches-Spiel-scaled.png' => array(2560, 1354),
         '/wp-content/uploads/2025/09/sokolinz800_v-epg__large__16__9_-5412e775eb65789c908def5fa9fdf24a7b895a8f-1024x576.jpg' => array(1024, 576),
+        'images/projects/erinner-mich-an-morgen.jpg' => array(1920, 1080),
+        'images/projects/weihnachten-in-sommerby.jpg' => array(1920, 1080),
     ),
     'thumbs' => array(
         'vimeo:1096845777' => 'https://i.vimeocdn.com/video/2031012647-71c230eb4d3fb3f7575282386e5b92ed6591e2b97cb1568690439f581f3a7d19-d_1280?region=us',
