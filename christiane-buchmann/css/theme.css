@@ -1,0 +1,79 @@
+.outline_white {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
+}
+
+.outline_black {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 1);
+}
+
+.casestudylink {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
+}
+
+.difference,
+.project_arrow {
+  mix-blend-mode: difference;
+}
+
+.contact_label {
+  justify-self: end;
+  align-self: end;
+}
+
+.contact_value {
+  align-self: end;
+  text-transform: none;
+}
+
+.project_video {
+  position: relative;
+  padding-top: 56.25%;
+  margin-bottom: 24px;
+}
+
+.project_video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.project_gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.w-richtext .project_gallery figure {
+  max-width: 100%;
+  margin: 0;
+}
+
+.project_gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.project_gallery figcaption {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 16px;
+  opacity: 0.7;
+}
+
+.project_trailer_link {
+  margin-bottom: 24px;
+}
+
+@media screen and (max-width: 767px) {
+  .project_gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

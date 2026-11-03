@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "webflow-christiane-buchmann": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "webflow-mcp-server@latest"],
+      "envFile": "${workspaceFolder}/.env"
+    }
+  }
+}
