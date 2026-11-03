@@ -33,71 +33,393 @@
   text-transform: none;
 }
 
-.project_video {
+/* Trailer poster: links to the video page, opens the theatre player when JavaScript runs. */
+.trailer {
   position: relative;
-  padding-top: 56.25%;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
   margin-bottom: 1.5rem;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
 }
 
-.project_video_poster {
+.trailer_poster {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 0;
-  background: #000;
-  cursor: pointer;
-}
-
-.project_video_poster img {
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.85;
-  transition: opacity 200ms ease;
+  transition: transform 1400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.project_video_poster:hover img,
-.project_video_poster:focus-visible img {
-  opacity: 1;
-}
-
-.project_video_play {
+.trailer_shade {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5rem;
-  height: 5rem;
-  margin: -2.5rem 0 0 -2.5rem;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  transition: transform 200ms ease;
+  inset: 0;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.6) 100%);
 }
 
-.project_video_play::after {
-  content: "";
+.trailer_cta {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -0.75rem 0 0 -0.4375rem;
-  border-style: solid;
-  border-width: 0.75rem 0 0.75rem 1.25rem;
-  border-color: transparent transparent transparent #fff;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
 }
 
-.project_video_poster:hover .project_video_play {
-  transform: scale(1.08);
+.trailer_play {
+  width: 5.5rem;
+  height: 5.5rem;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.project_video iframe {
+.trailer_play circle {
+  transition: fill 300ms ease;
+}
+
+.trailer_play_glyph {
+  fill: #fff;
+  transition: fill 300ms ease;
+}
+
+.trailer_label {
+  font-size: 1.5rem;
+  line-height: 100%;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.trailer_time {
+  margin-top: -0.75rem;
+  font-size: 0.875rem;
+  line-height: 100%;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+}
+
+.trailer:hover .trailer_poster,
+.trailer:focus-visible .trailer_poster {
+  transform: scale(1.04);
+}
+
+.trailer:hover .trailer_play,
+.trailer:focus-visible .trailer_play {
+  transform: scale(1.06);
+}
+
+.trailer:hover .trailer_play circle,
+.trailer:focus-visible .trailer_play circle {
+  fill: #fff;
+}
+
+.trailer:hover .trailer_play_glyph,
+.trailer:focus-visible .trailer_play_glyph {
+  fill: #000;
+}
+
+.trailer:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 0.25rem;
+}
+
+.trailer--open {
+  visibility: hidden;
+}
+
+/* Theatre player */
+html.tp-open {
+  overflow: hidden;
+}
+
+.tp {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  color: #fff;
+}
+
+.tp[hidden] {
+  display: none;
+}
+
+.tp:focus {
+  outline: none;
+}
+
+.tp_backdrop {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.94);
+}
+
+.tp_frame {
+  position: fixed;
+  overflow: hidden;
+  background-color: #000;
+  transform-origin: 0 0;
+}
+
+.tp_frame:fullscreen {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.tp_still,
+.tp_media,
+.tp_media iframe,
+.tp_hit {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.tp_still {
+  background-position: center;
+  background-size: cover;
+  transition: opacity 600ms ease;
+}
+
+.tp_media {
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+.tp--playing .tp_media {
+  opacity: 1;
+}
+
+.tp--playing .tp_still {
+  opacity: 0;
+}
+
+.tp_hit {
+  cursor: pointer;
+}
+
+.tp--idle .tp_hit {
+  cursor: none;
+}
+
+.tp_status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 32ch;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  font-size: 0.875rem;
+  line-height: 150%;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.tp--loading .tp_status {
+  animation: tp-pulse 1600ms ease-in-out infinite;
+}
+
+.tp--error .tp_still {
+  opacity: 0.25;
+}
+
+.tp--error .tp_status {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.tp_status a {
+  display: block;
+  margin-top: 0.5rem;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.tp--error .tp_bar,
+.tp--loading .tp_bar {
+  visibility: hidden;
+}
+
+.tp_close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  place-items: center;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease, opacity 400ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tp_close:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.tp_close svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.tp_bar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 4rem 2rem 1.5rem;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.65) 100%);
+  transition: opacity 400ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tp--idle .tp_bar {
+  opacity: 0;
+  transform: translateY(0.75rem);
+  pointer-events: none;
+}
+
+.tp--idle .tp_close {
+  opacity: 0;
+  transform: translateY(-0.75rem);
+  pointer-events: none;
+}
+
+.tp_btn {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.tp_btn svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tp_time {
+  flex: none;
+  min-width: 2.75em;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tp_total {
+  text-align: right;
+}
+
+.tp_scrub {
+  --tp-progress: 0%;
+  flex: 1;
+  min-width: 0;
+  height: 1.5rem;
+  margin: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.tp_scrub::-webkit-slider-runnable-track {
+  height: 1px;
+  background-image: linear-gradient(90deg, #fff var(--tp-progress), rgba(255, 255, 255, 0.35) var(--tp-progress));
+}
+
+.tp_scrub::-moz-range-track {
+  height: 1px;
+  background-image: linear-gradient(90deg, #fff var(--tp-progress), rgba(255, 255, 255, 0.35) var(--tp-progress));
+}
+
+.tp_scrub::-webkit-slider-thumb {
+  width: 0.625rem;
+  height: 0.625rem;
+  margin-top: -0.28rem;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: transform 200ms ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.tp_scrub::-moz-range-thumb {
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 0;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.tp_scrub:hover::-webkit-slider-thumb,
+.tp_scrub:focus-visible::-webkit-slider-thumb {
+  transform: scale(1.5);
+}
+
+.tp_sound {
+  flex: none;
+  min-width: 6.5em;
+  padding: 0.5rem 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: right;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tp button:focus-visible,
+.tp_scrub:focus-visible,
+.tp_status a:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 0.25rem;
+}
+
+@keyframes tp-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trailer_poster,
+  .trailer_play,
+  .tp_bar,
+  .tp_close {
+    transition: none;
+  }
+
+  .tp--loading .tp_status {
+    animation: none;
+  }
 }
 
 .project_gallery {
@@ -138,5 +460,35 @@
 @media screen and (max-width: 47.9375em) {
   .project_gallery {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trailer_play {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .trailer_label {
+    font-size: 1.125rem;
+  }
+
+  .tp_close {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .tp_bar {
+    gap: 0.5rem;
+    padding: 2.5rem 0.75rem 0.5rem;
+  }
+
+  .tp_time {
+    font-size: 0.75rem;
+  }
+
+  .tp_sound {
+    min-width: 5.5em;
+    font-size: 0.75rem;
   }
 }

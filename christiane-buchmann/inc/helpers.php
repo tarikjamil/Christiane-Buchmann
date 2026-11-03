@@ -45,9 +45,9 @@ function cb_media($key)
     static $media = null;
     if ($media === null) {
         $file = __DIR__ . '/media.php';
-        $media = file_exists($file) ? require $file : array('sizes' => array(), 'thumbs' => array());
+        $media = file_exists($file) ? require $file : array();
     }
-    return $media[$key];
+    return isset($media[$key]) ? $media[$key] : array();
 }
 
 /** width/height attributes for an uploaded image, so the layout doesn't jump while it loads. */
@@ -62,6 +62,33 @@ function cb_video_thumb($video, $fallback)
     $thumbs = cb_media('thumbs');
     $key = $video['provider'] . ':' . $video['id'];
     return isset($thumbs[$key]) ? $thumbs[$key] : $fallback;
+}
+
+function cb_video_seconds($video)
+{
+    $durations = cb_media('durations');
+    $key = $video['provider'] . ':' . $video['id'];
+    return empty($durations[$key]) ? 0 : (int) $durations[$key];
+}
+
+/** Runtime as m:ss, or '' when unknown. */
+function cb_video_duration($video)
+{
+    $s = cb_video_seconds($video);
+    return $s ? floor($s / 60) . ':' . str_pad((string) ($s % 60), 2, '0', STR_PAD_LEFT) : '';
+}
+
+function cb_video_watch_url($video)
+{
+    return $video['provider'] === 'youtube'
+        ? 'https://www.youtube.com/watch?v=' . rawurlencode($video['id'])
+        : 'https://vimeo.com/' . rawurlencode($video['id']);
+}
+
+function cb_video_label($project)
+{
+    $labels = array('narrative' => 'Watch trailer', 'documentary' => 'Watch trailer', 'music-video' => 'Watch video', 'commercial' => 'Watch film');
+    return isset($labels[$project['category']]) ? $labels[$project['category']] : 'Watch';
 }
 
 function cb_theme_dir()

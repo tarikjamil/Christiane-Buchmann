@@ -33,12 +33,16 @@ include cb_theme_dir() . '/templates/nav.php';
       <div class="largecontainer">
         <div class="w-richtext">
           <?php foreach ($project['videos'] as $video) : ?>
-          <div class="project_video">
-            <button type="button" class="project_video_poster" data-embed="<?php echo esc_attr(cb_video_embed_url($video, true)); ?>" data-title="<?php echo esc_attr($name . ' – Trailer'); ?>" aria-label="<?php echo esc_attr('Play trailer: ' . $name); ?>">
-              <img src="<?php echo esc_url(cb_video_thumb($video, cb_upload($project['image']))); ?>" alt="" width="1280" height="720"<?php echo $video === $project['videos'][0] ? '' : ' loading="lazy"'; ?>>
-              <span class="project_video_play" aria-hidden="true"></span>
-            </button>
-          </div>
+          <?php $duration = cb_video_duration($video); ?>
+          <a class="trailer" href="<?php echo esc_url(cb_video_watch_url($video)); ?>" target="_blank" rel="noopener" data-trailer="<?php echo esc_attr($video['provider']); ?>" data-trailer-id="<?php echo esc_attr($video['id']); ?>" data-trailer-title="<?php echo esc_attr($name); ?>" data-trailer-duration="<?php echo (int) cb_video_seconds($video); ?>" aria-label="<?php echo esc_attr(cb_video_label($project) . ': ' . $name . ($duration ? ', ' . $duration : '')); ?>">
+            <img class="trailer_poster" src="<?php echo esc_url(cb_video_thumb($video, cb_upload($project['image']))); ?>" alt="" width="1280" height="720"<?php echo $video === $project['videos'][0] ? '' : ' loading="lazy"'; ?>>
+            <span class="trailer_shade" aria-hidden="true"></span>
+            <span class="trailer_cta" aria-hidden="true">
+              <svg class="trailer_play" viewBox="0 0 72 72"><circle cx="36" cy="36" r="35" fill="none" stroke="currentColor" stroke-width="1.5"/><path class="trailer_play_glyph" d="M30 25.5v21l17-10.5z"/></svg>
+              <span class="trailer_label"><?php cb_e(cb_video_label($project)); ?></span>
+              <?php if ($duration) : ?><span class="trailer_time"><?php cb_e($duration); ?></span><?php endif; ?>
+            </span>
+          </a>
           <?php endforeach; ?>
           <?php if (!empty($project['trailer_link'])) : ?>
           <div class="inline project_trailer_link">

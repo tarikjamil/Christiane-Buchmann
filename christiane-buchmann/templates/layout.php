@@ -38,16 +38,6 @@ $wf_page = isset($wf_pages[$page['template']]) ? $wf_pages[$page['template']] : 
   <script src="<?php echo esc_url(cb_asset('js/christiane-buchmann.js')); ?>" type="text/javascript"></script>
   <script src="<?php echo esc_url(cb_asset('js/grained.js')); ?>"></script>
   <script>
-    document.querySelectorAll(".project_video_poster").forEach(function (poster) {
-      poster.addEventListener("click", function () {
-        var frame = document.createElement("iframe");
-        frame.src = poster.getAttribute("data-embed");
-        frame.title = poster.getAttribute("data-title");
-        frame.allow = "autoplay; fullscreen; picture-in-picture";
-        frame.allowFullscreen = true;
-        poster.replaceWith(frame);
-      });
-    });
     if (document.getElementById("hero")) grained("#hero", {
       animate: true,
       patternWidth: 600,
@@ -58,6 +48,9 @@ $wf_page = isset($wf_pages[$page['template']]) ? $wf_pages[$page['template']] : 
       grainHeight: 0.7
     });
   </script>
+<?php if ($page['template'] === 'project' && !empty($page['project']['videos'])) : ?>
+  <script src="<?php echo esc_url(cb_asset('js/trailer-player.js')); ?>" defer></script>
+<?php endif; ?>
 <?php if ($page['template'] === 'home') : ?>
   <script src="<?php echo esc_url(cb_asset('js/jquery.scrollify.min.js')); ?>"></script>
   <script>
