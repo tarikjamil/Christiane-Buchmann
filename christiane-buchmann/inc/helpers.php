@@ -40,6 +40,30 @@ function cb_projects_in($category)
     }));
 }
 
+function cb_media($key)
+{
+    static $media = null;
+    if ($media === null) {
+        $file = __DIR__ . '/media.php';
+        $media = file_exists($file) ? require $file : array('sizes' => array(), 'thumbs' => array());
+    }
+    return $media[$key];
+}
+
+/** width/height attributes for an uploaded image, so the layout doesn't jump while it loads. */
+function cb_size_attrs($path)
+{
+    $sizes = cb_media('sizes');
+    return isset($sizes[$path]) ? ' width="' . (int) $sizes[$path][0] . '" height="' . (int) $sizes[$path][1] . '"' : '';
+}
+
+function cb_video_thumb($video, $fallback)
+{
+    $thumbs = cb_media('thumbs');
+    $key = $video['provider'] . ':' . $video['id'];
+    return isset($thumbs[$key]) ? $thumbs[$key] : $fallback;
+}
+
 function cb_theme_dir()
 {
     return dirname(__DIR__);
@@ -95,12 +119,13 @@ function cb_e($text)
     echo esc_html($text);
 }
 
-function cb_video_embed_url($video)
+function cb_video_embed_url($video, $autoplay = false)
 {
+    $play = $autoplay ? '&autoplay=1' : '';
     if ($video['provider'] === 'youtube') {
-        return 'https://www.youtube-nocookie.com/embed/' . rawurlencode($video['id']) . '?rel=0';
+        return 'https://www.youtube-nocookie.com/embed/' . rawurlencode($video['id']) . '?rel=0' . $play;
     }
-    return 'https://player.vimeo.com/video/' . rawurlencode($video['id']) . '?title=0&byline=0&portrait=0&dnt=1';
+    return 'https://player.vimeo.com/video/' . rawurlencode($video['id']) . '?title=0&byline=0&portrait=0&dnt=1' . $play;
 }
 
 function cb_project_alt($project, $suffix = 'film still')

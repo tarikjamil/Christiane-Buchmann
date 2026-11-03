@@ -3,3 +3,4 @@
 *.wpress
 node_modules/
 .env
+audits/**/*.report.html

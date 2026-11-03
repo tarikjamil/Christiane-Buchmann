@@ -33,7 +33,12 @@ include cb_theme_dir() . '/templates/nav.php';
       <div class="largecontainer">
         <div class="w-richtext">
           <?php foreach ($project['videos'] as $video) : ?>
-          <div class="project_video"><iframe src="<?php echo esc_url(cb_video_embed_url($video)); ?>" title="<?php echo esc_attr($name . ' – Trailer'); ?>" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <div class="project_video">
+            <button type="button" class="project_video_poster" data-embed="<?php echo esc_attr(cb_video_embed_url($video, true)); ?>" data-title="<?php echo esc_attr($name . ' – Trailer'); ?>" aria-label="<?php echo esc_attr('Play trailer: ' . $name); ?>">
+              <img src="<?php echo esc_url(cb_video_thumb($video, cb_upload($project['image']))); ?>" alt="" width="1280" height="720"<?php echo $video === $project['videos'][0] ? '' : ' loading="lazy"'; ?>>
+              <span class="project_video_play" aria-hidden="true"></span>
+            </button>
+          </div>
           <?php endforeach; ?>
           <?php if (!empty($project['trailer_link'])) : ?>
           <div class="inline project_trailer_link">
@@ -44,7 +49,7 @@ include cb_theme_dir() . '/templates/nav.php';
           <?php if ($project['gallery']) : ?>
           <div class="project_gallery">
             <?php foreach ($project['gallery'] as $i => $img) : ?>
-            <figure><img src="<?php echo esc_url(cb_upload($img['src'])); ?>" alt="<?php echo esc_attr(cb_project_alt($project, 'film still ' . ($i + 1))); ?>" loading="lazy"><?php if ($img['caption']) : ?><figcaption><?php cb_e($img['caption']); ?></figcaption><?php endif; ?></figure>
+            <figure><img src="<?php echo esc_url(cb_upload($img['src'])); ?>"<?php echo cb_size_attrs($img['src']); ?> alt="<?php echo esc_attr(cb_project_alt($project, 'film still ' . ($i + 1))); ?>" loading="lazy"><?php if ($img['caption']) : ?><figcaption><?php cb_e($img['caption']); ?></figcaption><?php endif; ?></figure>
             <?php endforeach; ?>
           </div>
           <?php endif; ?>
@@ -64,7 +69,7 @@ include cb_theme_dir() . '/templates/nav.php';
       </div>
     </div>
     </article>
-    <div class="fullsection"><img src="<?php echo esc_url($project['image'] ? cb_upload($project['image']) : cb_asset('images/corious_retouched.jpg')); ?>" alt="<?php echo esc_attr($project['image'] ? cb_project_alt($project) : ''); ?>" class="fullimg" loading="lazy">
+    <div class="fullsection"><img src="<?php echo esc_url($project['image'] ? cb_upload($project['image']) : cb_asset('images/corious_retouched.jpg')); ?>"<?php echo cb_size_attrs($project['image']); ?> alt="<?php echo esc_attr($project['image'] ? cb_project_alt($project) : ''); ?>" class="fullimg" loading="lazy">
       <div data-w-id="5f3fe868-5889-a951-c063-f290b0bd470a" class="largecontainer">
         <div class="hide">
           <h2 data-w-id="5f3fe868-5889-a951-c063-f290b0bd470b" style="<?php echo $ix_up; ?>" class="h1">Curious ?</h2>
