@@ -14,14 +14,14 @@ body {
   font-family: neue-haas-grotesk-display, sans-serif;
   color: #000;
   font-size: 1rem;
-  line-height: 1.5rem;
-  letter-spacing: 0.33px;
+  line-height: 150%;
+  letter-spacing: 0.0206em;
 }
 
 p {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  letter-spacing: 0.33px;
+  letter-spacing: 0.0206em;
 }
 
 a {
@@ -230,7 +230,7 @@ a {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 3.5rem;
-  line-height: 4rem;
+  line-height: 114%;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -243,7 +243,7 @@ a {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 3rem;
-  line-height: 3.5rem;
+  line-height: 117%;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -258,7 +258,7 @@ a {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 2.5rem;
-  line-height: 3rem;
+  line-height: 120%;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -267,14 +267,14 @@ a {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 2rem;
-  line-height: 2.5rem;
+  line-height: 125%;
   font-weight: 900;
   text-transform: uppercase;
 }
 
 .h4.uppercase.title {
   font-size: 2.875rem;
-  line-height: 2.875rem;
+  line-height: 100%;
   font-weight: 400;
 }
 
@@ -301,7 +301,7 @@ a {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 1.5rem;
-  line-height: 2rem;
+  line-height: 133%;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -313,7 +313,7 @@ a {
   transition: all 200ms ease;
   color: #fff;
   font-size: 1rem;
-  line-height: 1.5rem;
+  line-height: 150%;
   font-weight: 400;
   text-decoration: none;
 }
@@ -331,7 +331,7 @@ a {
 
 .h5.normalfont._23p {
   font-size: 1.375rem;
-  line-height: 1.875rem;
+  line-height: 136%;
 }
 
 .h6 {
@@ -584,7 +584,7 @@ a {
 
 .number {
   font-size: 1.5rem;
-  line-height: 2rem;
+  line-height: 133%;
   font-weight: 900;
 }
 
@@ -800,7 +800,7 @@ a {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 2rem;
-  line-height: 3.5rem;
+  line-height: 175%;
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -1020,31 +1020,31 @@ a {
   }
   .h1 {
     font-size: 3.25rem;
-    line-height: 3.75rem;
+    line-height: 115%;
   }
   .h1.uppercase {
     font-size: 3rem;
-    line-height: 3rem;
+    line-height: 100%;
   }
   .h2 {
     font-size: 2.75rem;
-    line-height: 3.25rem;
+    line-height: 118%;
   }
   .h3 {
     font-size: 2.25rem;
-    line-height: 2.75rem;
+    line-height: 122%;
   }
   .h4 {
     font-size: 1.75rem;
-    line-height: 2.25rem;
+    line-height: 129%;
   }
   .h4.uppercase.title {
     font-size: 2.5rem;
-    line-height: 2.5rem;
+    line-height: 100%;
   }
   .h5 {
     font-size: 1.25rem;
-    line-height: 1.75rem;
+    line-height: 140%;
   }
   .section {
     padding-top: 6rem;
@@ -1086,7 +1086,7 @@ a {
   }
   .portoflio-title {
     font-size: 2rem;
-    line-height: 2.5rem;
+    line-height: 125%;
   }
   .socialmedia_parent {
     -webkit-box-orient: horizontal;
@@ -1125,31 +1125,31 @@ a {
   }
   .h1 {
     font-size: 2.25rem;
-    line-height: 2.75rem;
+    line-height: 122%;
   }
   .h1.uppercase {
     font-size: 1.8125rem;
-    line-height: 1.8125rem;
+    line-height: 100%;
   }
   .h2 {
     font-size: 2rem;
-    line-height: 2.5rem;
+    line-height: 125%;
   }
   .h3 {
     font-size: 1.75rem;
-    line-height: 2.25rem;
+    line-height: 129%;
   }
   .h4 {
     font-size: 1.5rem;
-    line-height: 2rem;
+    line-height: 133%;
   }
   .h4.uppercase.title {
     font-size: 1.6875rem;
-    line-height: 1.6875rem;
+    line-height: 100%;
   }
   .h5.footerlink {
     font-size: 1rem;
-    line-height: 1.5rem;
+    line-height: 150%;
   }
   .btn.blackbtn._32topmargin {
     -webkit-box-pack: center;
@@ -1208,7 +1208,7 @@ a {
   }
   .portoflio-title {
     font-size: 1.5rem;
-    line-height: 2rem;
+    line-height: 133%;
   }
   .overflow {
     margin-bottom: 2rem;
@@ -1237,7 +1237,7 @@ a {
   }
   .portoflio-title {
     font-size: 1rem;
-    line-height: 1.5rem;
+    line-height: 150%;
   }
   .play_lottie {
     width: 3rem;

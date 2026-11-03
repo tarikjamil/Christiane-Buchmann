@@ -51,7 +51,7 @@ body {
   background-color: #fff;
   font-family: Arial, sans-serif;
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: 143%;
   color: #333;
 }
 img {
@@ -207,32 +207,32 @@ h6 {
 }
 h1 {
   font-size: 2.375rem;
-  line-height: 2.75rem;
+  line-height: 116%;
   margin-top: 1.25rem;
 }
 h2 {
   font-size: 2rem;
-  line-height: 2.25rem;
+  line-height: 113%;
   margin-top: 1.25rem;
 }
 h3 {
   font-size: 1.5rem;
-  line-height: 1.875rem;
+  line-height: 125%;
   margin-top: 1.25rem;
 }
 h4 {
   font-size: 1.125rem;
-  line-height: 1.5rem;
+  line-height: 133%;
   margin-top: 0.625rem;
 }
 h5 {
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: 143%;
   margin-top: 0.625rem;
 }
 h6 {
   font-size: 0.75rem;
-  line-height: 1.125rem;
+  line-height: 150%;
   margin-top: 0.625rem;
 }
 p {
@@ -244,7 +244,7 @@ blockquote {
   padding: 0.625rem 1.25rem;
   border-left: 0.3125rem solid #E2E2E2;
   font-size: 1.125rem;
-  line-height: 1.375rem;
+  line-height: 122%;
 }
 figure {
   margin: 0;
@@ -482,7 +482,7 @@ textarea.w-select {
 }
 .w-file-upload-info {
   display: inline-block;
-  line-height: 2.375rem;
+  line-height: 238%;
   padding: 0 0.75rem;
 }
 .w-file-upload-label {
@@ -801,7 +801,7 @@ textarea.w-select {
 .w-widget-twitter-count-shim .w-widget-twitter-count-inner {
   position: relative;
   font-size: 0.9375rem;
-  line-height: 0.75rem;
+  line-height: 80%;
   text-align: center;
   color: #999;
   font-family: serif;
@@ -816,7 +816,7 @@ textarea.w-select {
 }
 .w-widget-twitter-count-shim.w--large .w-widget-twitter-count-inner {
   font-size: 1.125rem;
-  line-height: 1.125rem;
+  line-height: 100%;
 }
 .w-widget-twitter-count-shim:not(.w--vertical) {
   margin-left: 0.3125rem;
@@ -890,7 +890,7 @@ textarea.w-select {
 }
 .w-widget-twitter-count-shim.w--vertical .w-widget-twitter-count-inner {
   font-size: 1.125rem;
-  line-height: 1.375rem;
+  line-height: 122%;
 }
 .w-widget-twitter-count-shim.w--vertical.w--large {
   width: 4.75rem;
