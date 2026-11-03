@@ -64,7 +64,25 @@ function cb_handle_request()
     if (cb_is_passthrough($path)) {
         return;
     }
+    cb_canonical_host_redirect();
     cb_dispatch($path);
+    exit;
+}
+
+/** Sends http:// and www. requests to the address set in Settings > General (once that is https). */
+function cb_canonical_host_redirect()
+{
+    $home = parse_url(function_exists('get_option') ? get_option('home') : home_url('/'));
+    if (empty($home['host']) || empty($home['scheme']) || $home['scheme'] !== 'https') {
+        return;
+    }
+    $host = isset($_SERVER['HTTP_HOST']) ? strtolower($_SERVER['HTTP_HOST']) : '';
+    $secure = function_exists('is_ssl') ? is_ssl() : (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+    if ($secure && $host === strtolower($home['host'])) {
+        return;
+    }
+    $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+    header('Location: https://' . $home['host'] . $uri, true, 301);
     exit;
 }
 
