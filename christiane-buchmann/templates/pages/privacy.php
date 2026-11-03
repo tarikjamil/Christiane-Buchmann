@@ -2,7 +2,7 @@
   <main id="hero" class="section hero">
     <div class="largecontainer">
       <div class="w-richtext">
-<h2>GDPR Privacy Notice</h2>
+<h1 class="privacy_title">GDPR Privacy Notice</h1>
 <p>At Christiane Buchmann, accessible from christianebuchmann.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Christiane Buchmann and how we use it.</p>
 <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
 <h2>General Data Protection Regulation (GDPR)</h2>

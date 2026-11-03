@@ -557,7 +557,7 @@ return array(
         'title' => 'KÜSS MICH (B-Cam)',
         'subtitle' => 'Madsen',
         'tagline' => '',
-        'description' => '',
+        'description' => 'Music video for “Küss mich” by the German band Madsen (2015), directed by Esther Bialas and Nathan Nill. Christiane Buchmann worked as B-camera operator alongside DoP Johannes Tress.',
         'videos' => array(
             array(
                 'provider' => 'youtube',
@@ -584,7 +584,7 @@ return array(
         'title' => 'TELEKOM',
         'subtitle' => 'IT Sofort Service',
         'tagline' => 'Externe Geräte // cut down',
-        'description' => '',
+        'description' => 'Three web films for Deutsche Telekom’s “IT Sofort Service”, directed by Judith Rieder for Nordisch Filmproduktion and shot on RED MX in 4K.',
         'videos' => array(
             array(
                 'provider' => 'vimeo',
@@ -634,7 +634,7 @@ return array(
         'title' => 'Volksbanken Raiffeisenbanken',
         'subtitle' => 'Goldene VR Bankcard plus',
         'tagline' => 'cut down',
-        'description' => '',
+        'description' => 'One-minute commercial for the Volksbanken Raiffeisenbanken “Goldene VR Bankcard plus”, written and directed by René Marks (Marks GmbH) and shot in 4K.',
         'videos' => array(
             array(
                 'provider' => 'vimeo',
@@ -711,7 +711,7 @@ return array(
         'title' => 'TCHIBO',
         'subtitle' => 'Lieblingsstückeshop',
         'tagline' => 'Making of // cut down',
-        'description' => '',
+        'description' => 'Making-of film for Tchibo’s “Lieblingsstückeshop”, shot in Germany and Denmark for Orendt Studios, with interviews directed by Sebastian Poerschke.',
         'videos' => array(
             array(
                 'provider' => 'vimeo',

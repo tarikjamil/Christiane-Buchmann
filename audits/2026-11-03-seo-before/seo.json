@@ -1,0 +1,749 @@
+[
+  {
+    "url": "https://christianebuchmann.com/",
+    "status": 200,
+    "lang": "en",
+    "title": "Christiane Buchmann, BVK – Director of Photography (Hamburg / Frankfurt)",
+    "description": "Christiane Buchmann, BVK is a German Director of Photography (cinematographer) based in Hamburg and Frankfurt, working on feature films, TV series, documentaries, music videos and commercials.",
+    "canonical": "https://christianebuchmann.com/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/themes/christiane-buchmann/images/about-me_retouched.jpg?v=1793746956",
+    "h1": [
+      "Christiane Buchmann, BVK"
+    ],
+    "h2_count": 4,
+    "img_total": 36,
+    "img_no_alt": 0,
+    "img_empty_alt": 15,
+    "words": 117,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/about/",
+    "status": 200,
+    "lang": "en",
+    "title": "About – Christiane Buchmann, Director of Photography",
+    "description": "Biography, awards and festival recognitions of Christiane Buchmann, BVK – German cinematographer trained at Hamburg Media School, EICTV Cuba and Berlinale Talents.",
+    "canonical": "https://christianebuchmann.com/about/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/themes/christiane-buchmann/images/about.jpg?v=1793746956",
+    "h1": [
+      "About"
+    ],
+    "h2_count": 3,
+    "img_total": 16,
+    "img_no_alt": 0,
+    "img_empty_alt": 2,
+    "words": 430,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "ProfilePage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/portfolio/",
+    "status": 200,
+    "lang": "en",
+    "title": "Work: Narrative, Music Videos, Commercials, Documentaries – Christiane Buchmann, Director of Photography",
+    "description": "Selected work by cinematographer Christiane Buchmann: TV series and feature films (Tatort, SOKO Linz, Ein Fall für Zwei), music videos, commercials and documentaries.",
+    "canonical": "https://christianebuchmann.com/portfolio/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/themes/christiane-buchmann/images/Feature-bearbeitet.jpg?v=1793746956",
+    "h1": [
+      "WORK"
+    ],
+    "h2_count": 1,
+    "img_total": 65,
+    "img_no_alt": 0,
+    "img_empty_alt": 30,
+    "words": 108,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "CollectionPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/contact/",
+    "status": 200,
+    "lang": "en",
+    "title": "Contact & Agency – Christiane Buchmann, Director of Photography",
+    "description": "Contact Christiane Buchmann, BVK, Director of Photography in Hamburg / Frankfurt. Represented by Above the line (Claudia Csanky).",
+    "canonical": "https://christianebuchmann.com/contact/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/themes/christiane-buchmann/images/about-me_retouched.jpg?v=1793746956",
+    "h1": [
+      "Get in touch"
+    ],
+    "h2_count": 5,
+    "img_total": 13,
+    "img_no_alt": 0,
+    "img_empty_alt": 2,
+    "words": 73,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "ContactPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/falsches-spiel-false-game/",
+    "status": 200,
+    "lang": "en",
+    "title": "Falsches Spiel (Ein Fall für Zwei) – Christiane Buchmann, Director of Photography",
+    "description": "Falsches Spiel (Ein Fall für Zwei) – cinematography by Christiane Buchmann, BVK. Germany 2025 | TV series for ZDF | 60 min | Shooting format: Arri Alexa Mini…",
+    "canonical": "https://christianebuchmann.com/all-projects/falsches-spiel-false-game/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2025/09/falsches-Spiel-scaled.png",
+    "h1": [
+      "FALSCHES SPIEL"
+    ],
+    "h2_count": 2,
+    "img_total": 18,
+    "img_no_alt": 0,
+    "img_empty_alt": 3,
+    "words": 303,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "TVSeries",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/ausgetanzt-danced-out/",
+    "status": 200,
+    "lang": "en",
+    "title": "Ausgetanzt (Ein Fall für Zwei) – Christiane Buchmann, Director of Photography",
+    "description": "Ausgetanzt (Ein Fall für Zwei) – cinematography by Christiane Buchmann, BVK. Germany 2025 | TV series for ZDF | 60 min | Shooting format: Arri Alexa Mini 2k |…",
+    "canonical": "https://christianebuchmann.com/all-projects/ausgetanzt-danced-out/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2025/09/EFFZ_Ausgetanzt-scaled.png",
+    "h1": [
+      "AUSGETANZT"
+    ],
+    "h2_count": 2,
+    "img_total": 18,
+    "img_no_alt": 0,
+    "img_empty_alt": 3,
+    "words": 260,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "TVSeries",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/die-kalte-der-erde/",
+    "status": 200,
+    "lang": "en",
+    "title": "Die Kälte der Erde (Tatort Saarbrücken) – Christiane Buchmann, Director of Photography",
+    "description": "Die Kälte der Erde (Tatort Saarbrücken) – cinematography by Christiane Buchmann, BVK. Germany 2023 | Crime story TV- feature SR/ Degeto | 90 min | Shooting…",
+    "canonical": "https://christianebuchmann.com/all-projects/die-kalte-der-erde/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2025/09/Tatort-Kaelte-der-Erde4-Kopie-scaled-e1722769763899.jpg",
+    "h1": [
+      "DIE KÄLTE DER ERDE"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 203,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "Movie",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/schatten/",
+    "status": 200,
+    "lang": "en",
+    "title": "Wo kein Schatten fällt – Christiane Buchmann, Director of Photography",
+    "description": "Wo kein Schatten fällt – cinematography by Christiane Buchmann, BVK. Germany 2018 | Mysterydrama | 96 min | Shooting format: 3,2k Arri Alexa 1:1,78 / 1:2,35…",
+    "canonical": "https://christianebuchmann.com/all-projects/schatten/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Filmstill-WKSF-18.jpg",
+    "h1": [
+      "Wo kein Schatten fällt"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 220,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "Movie",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/soko-linz/",
+    "status": 200,
+    "lang": "en",
+    "title": "SOKO Linz – Signature Style – Christiane Buchmann, Director of Photography",
+    "description": "SOKO Linz – Signature Style – cinematography by Christiane Buchmann, BVK. Austria 2023 | TV series for ORF / ZDF | 4 x 45 min | Shooting format: Arri Alexa LF…",
+    "canonical": "https://christianebuchmann.com/all-projects/soko-linz/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2025/09/Signature-Style-01-scaled.png",
+    "h1": [
+      "SOKO LINZ"
+    ],
+    "h2_count": 2,
+    "img_total": 24,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 167,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "TVSeries",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/die-pfefferkorner/",
+    "status": 200,
+    "lang": "en",
+    "title": "Die Pfefferkörner – Christiane Buchmann, Director of Photography",
+    "description": "Die Pfefferkörner – cinematography by Christiane Buchmann, BVK. Germany 2022 | TV series for ARD | 6 x 30 min | Shooting format: Arri Alexa Plus 16:9 | Lenses:…",
+    "canonical": "https://christianebuchmann.com/all-projects/die-pfefferkorner/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2025/09/Geheime-Wahrheiten-PK-02-scaled.png",
+    "h1": [
+      "DIE PFEFFERKÖRNER"
+    ],
+    "h2_count": 2,
+    "img_total": 29,
+    "img_no_alt": 0,
+    "img_empty_alt": 3,
+    "words": 98,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "TVSeries",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/junas-phantastische-reise/",
+    "status": 200,
+    "lang": "en",
+    "title": "Junas phantastische Reise (TV series pilot) – Christiane Buchmann, Director of Photography",
+    "description": "Junas phantastische Reise (TV series pilot) – cinematography by Christiane Buchmann, BVK. Germany 2018 | Children’s TV series pilot for ARD | 2x 15 min|…",
+    "canonical": "https://christianebuchmann.com/all-projects/junas-phantastische-reise/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/06/Filmstill-Juna_Claire-Wegener01.jpg",
+    "h1": [
+      "JUNAS PHANTASTISCHE REISE"
+    ],
+    "h2_count": 2,
+    "img_total": 20,
+    "img_no_alt": 0,
+    "img_empty_alt": 3,
+    "words": 185,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "TVSeries",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/la-cigale/",
+    "status": 200,
+    "lang": "en",
+    "title": "La cigale et la fourmi – Christiane Buchmann, Director of Photography",
+    "description": "La cigale et la fourmi – cinematography by Christiane Buchmann, BVK. Germany 2016 | Drama | 15 min | Shooting format: 2k Arri Alexa 4:3 DCP | Arte, WDR, FFHSH,…",
+    "canonical": "https://christianebuchmann.com/all-projects/la-cigale/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/LaCigale.jpg",
+    "h1": [
+      "La cigale et la fourmi"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 130,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "Movie",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/dedowtschina/",
+    "status": 200,
+    "lang": "en",
+    "title": "Dedowtschina – Christiane Buchmann, Director of Photography",
+    "description": "Dedowtschina – cinematography by Christiane Buchmann, BVK. Germany 2012 | Drama | 22 min | Shooting format: HD Arri Alexa > Scan to 35mm 1:2,35 | FFHSH.",
+    "canonical": "https://christianebuchmann.com/all-projects/dedowtschina/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Dedowtschina.jpg",
+    "h1": [
+      "DEDOWTSCHINA"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 140,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "Movie",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/exmun/",
+    "status": 200,
+    "lang": "en",
+    "title": "Exmun – Christiane Buchmann, Director of Photography",
+    "description": "Exmun – cinematography by Christiane Buchmann, BVK. Germany 2012 | Drama | 14 min | Shooting format: 35mm+S16mm > 2K Scan to 35mm 1:2,35 | FFHSH.",
+    "canonical": "https://christianebuchmann.com/all-projects/exmun/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Exmun.jpg",
+    "h1": [
+      "EXMUN"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 134,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "Movie",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/efecto-domino/",
+    "status": 200,
+    "lang": "en",
+    "title": "Efecto Dominó – Christiane Buchmann, Director of Photography",
+    "description": "Efecto Dominó – cinematography by Christiane Buchmann, BVK. Cuba 2010 | Drama | 28 min | Shooting format: S16mm > 2K Scan to 35mm 1:1,85 | Filmstiftung NRW.",
+    "canonical": "https://christianebuchmann.com/all-projects/efecto-domino/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Efecto-Dominó.jpg",
+    "h1": [
+      "EFECTO DOMINÓ"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 174,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "Movie",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/the-only-witness/",
+    "status": 200,
+    "lang": "en",
+    "title": "Gloria de Oliveira – The Only Witness (music video) – Christiane Buchmann, Director of Photography",
+    "description": "Gloria de Oliveira – The Only Witness (music video) – cinematography by Christiane Buchmann, BVK. Germany 2020 | Musicvideo | 4min | BMPCC 4k",
+    "canonical": "https://christianebuchmann.com/all-projects/the-only-witness/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/TheOnlyWitness.jpg",
+    "h1": [
+      "The only Witness"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 139,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "MusicVideoObject",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/annalog/",
+    "status": 200,
+    "lang": "en",
+    "title": "Kraus – Anna Log (music video) – Christiane Buchmann, Director of Photography",
+    "description": "Kraus – Anna Log (music video) – cinematography by Christiane Buchmann, BVK. Germany 2017 | Musicvideo | 5 min | Alexa Mini 2,8k & 35mm analog Fuji",
+    "canonical": "https://christianebuchmann.com/all-projects/annalog/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/annalog.jpg",
+    "h1": [
+      "Anna Log"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 146,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "MusicVideoObject",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/another-world/",
+    "status": 200,
+    "lang": "en",
+    "title": "Lovespells – Another World (music video) – Christiane Buchmann, Director of Photography",
+    "description": "Lovespells – Another World (music video) – cinematography by Christiane Buchmann, BVK. Germany 2017 | Musicvideo | 4min | Panasonic Eva Pl 4k (UHD)",
+    "canonical": "https://christianebuchmann.com/all-projects/another-world/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/AnotherWorld.jpg",
+    "h1": [
+      "Another World"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 164,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "MusicVideoObject",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/kuss-mich/",
+    "status": 200,
+    "lang": "en",
+    "title": "Madsen – Küss mich (music video, B-camera) – Christiane Buchmann, Director of Photography",
+    "description": "Madsen – Küss mich (music video, B-camera) – cinematography by Christiane Buchmann, BVK. Musicvideo | 4 min | Shooting format 2,8k Arri Amira",
+    "canonical": "https://christianebuchmann.com/all-projects/kuss-mich/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Küss-mich.jpg",
+    "h1": [
+      "KÜSS MICH (B-Cam)"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 96,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "MusicVideoObject",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/telekom/",
+    "status": 200,
+    "lang": "en",
+    "title": "Telekom (IT Sofort Service) – Christiane Buchmann, Director of Photography",
+    "description": "Telekom (IT Sofort Service) – cinematography by Christiane Buchmann, BVK. Webfilm / 3x 1.30min / Shooting format RED MX 4k",
+    "canonical": "https://christianebuchmann.com/all-projects/telekom/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/telekom.jpg",
+    "h1": [
+      "TELEKOM"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 81,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "CreativeWork",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/belton-free/",
+    "status": 200,
+    "lang": "en",
+    "title": "Kwasny (Belton Free) – Christiane Buchmann, Director of Photography",
+    "description": "Kwasny (Belton Free) – cinematography by Christiane Buchmann, BVK. Imagefilm | 4 min | Shooting format 4k -> HD",
+    "canonical": "https://christianebuchmann.com/all-projects/belton-free/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Kwasney.jpg",
+    "h1": [
+      "Kwasny"
+    ],
+    "h2_count": 2,
+    "img_total": 16,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 106,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "CreativeWork",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/volksbanken-raifeisenbanken/",
+    "status": 200,
+    "lang": "en",
+    "title": "Volksbanken Raiffeisenbanken (Goldene VR Bankcard plus) – Christiane Buchmann, Director of Photography",
+    "description": "Volksbanken Raiffeisenbanken (Goldene VR Bankcard plus) – cinematography by Christiane Buchmann, BVK. Commercial | 1 min | Shooting format 4k",
+    "canonical": "https://christianebuchmann.com/all-projects/volksbanken-raifeisenbanken/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Volksbanken-Raifeisenbanken-1.jpg",
+    "h1": [
+      "Volksbanken Raiffeisenbanken"
+    ],
+    "h2_count": 2,
+    "img_total": 16,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 81,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "CreativeWork",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/vr-innovationaward-lasertemp/",
+    "status": 200,
+    "lang": "en",
+    "title": "Seiz (Lasertemp) – Christiane Buchmann, Director of Photography",
+    "description": "Seiz (Lasertemp) – cinematography by Christiane Buchmann, BVK. The family-owned company received the VR Innovation Prize for medium-sized companies for its…",
+    "canonical": "https://christianebuchmann.com/all-projects/vr-innovationaward-lasertemp/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Seiz-2.jpg",
+    "h1": [
+      "Seiz"
+    ],
+    "h2_count": 2,
+    "img_total": 16,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 96,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "CreativeWork",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/wood-chip-press/",
+    "status": 200,
+    "lang": "en",
+    "title": "Sägewerk Bohnert (Wood Chip Press) – Christiane Buchmann, Director of Photography",
+    "description": "Sägewerk Bohnert (Wood Chip Press) – cinematography by Christiane Buchmann, BVK. Imagefilm | 4 min | Shooting format 4k -> HD",
+    "canonical": "https://christianebuchmann.com/all-projects/wood-chip-press/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Bohnert.jpg",
+    "h1": [
+      "Sägewerk Bohnert"
+    ],
+    "h2_count": 2,
+    "img_total": 16,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 110,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "CreativeWork",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/tchibo/",
+    "status": 200,
+    "lang": "en",
+    "title": "Tchibo (Lieblingsstückeshop) – Christiane Buchmann, Director of Photography",
+    "description": "Tchibo (Lieblingsstückeshop) – cinematography by Christiane Buchmann, BVK.",
+    "canonical": "https://christianebuchmann.com/all-projects/tchibo/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Tchibo.jpg",
+    "h1": [
+      "TCHIBO"
+    ],
+    "h2_count": 2,
+    "img_total": 16,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 76,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "CreativeWork",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/neonstaub/",
+    "status": 200,
+    "lang": "en",
+    "title": "Neonstaub – Christiane Buchmann, Director of Photography",
+    "description": "Neonstaub – cinematography by Christiane Buchmann, BVK. Germany 2022 | TV Documentary series for NDR / ARD | 5 x 45 min | Shooting format: BM RAW 4K, 16:9 |…",
+    "canonical": "https://christianebuchmann.com/all-projects/neonstaub/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2025/09/MV5BNTA3MzRkNDctYWU1OC00NmY4LThhMzUtZDVmMWFjNzFhOWNhXkEyXkFqcGc@._V1_.jpg",
+    "h1": [
+      "Neonstaub"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 163,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "TVSeries",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/sinema-leo/",
+    "status": 200,
+    "lang": "en",
+    "title": "Sinema Leo – Christiane Buchmann, Director of Photography",
+    "description": "Sinema Leo – cinematography by Christiane Buchmann, BVK. Tansznia | Documentary | 4 min | HD",
+    "canonical": "https://christianebuchmann.com/all-projects/sinema-leo/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Sinema-Leo7.jpg",
+    "h1": [
+      "Sinema Leo"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 132,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "Movie",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/all-projects/la-sagrada-de-cuba/",
+    "status": 200,
+    "lang": "en",
+    "title": "La Sagrada de Cuba (Die Unberührbaren) – Christiane Buchmann, Director of Photography",
+    "description": "La Sagrada de Cuba (Die Unberührbaren) – cinematography by Christiane Buchmann, BVK. Cuba 2008 -2014 | 58 Min | Shooting Format HDV->HD | ZDF, 3SAT",
+    "canonical": "https://christianebuchmann.com/all-projects/la-sagrada-de-cuba/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/uploads/2020/05/Sagrada_7.jpg",
+    "h1": [
+      "La sagrada de cuba"
+    ],
+    "h2_count": 2,
+    "img_total": 17,
+    "img_no_alt": 0,
+    "img_empty_alt": 4,
+    "words": 181,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "Movie",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  },
+  {
+    "url": "https://christianebuchmann.com/gdpr-privacy-notice/",
+    "status": 200,
+    "lang": "en",
+    "title": "GDPR Privacy Notice – Christiane Buchmann",
+    "description": "Privacy notice for christianebuchmann.com.",
+    "canonical": "https://christianebuchmann.com/gdpr-privacy-notice/",
+    "robots": "index, follow, max-image-preview:large",
+    "og_image": "https://christianebuchmann.com/wp-content/themes/christiane-buchmann/images/about-me_retouched.jpg?v=1793746956",
+    "h1": [],
+    "h2_count": 10,
+    "img_total": 13,
+    "img_no_alt": 0,
+    "img_empty_alt": 2,
+    "words": 849,
+    "schema_types": [
+      "WebSite",
+      "Person",
+      "WebPage"
+    ],
+    "schema_ok": true,
+    "links_no_text": 0
+  }
+]

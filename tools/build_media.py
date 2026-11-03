@@ -33,7 +33,12 @@ def image_size(path):
 
 def thumbnail(video):
     if video["provider"] == "youtube":
-        return "https://i.ytimg.com/vi/%s/hqdefault.jpg" % video["id"]
+        hd = "https://i.ytimg.com/vi/%s/maxresdefault.jpg" % video["id"]
+        try:
+            urllib.request.urlopen(hd).close()
+            return hd
+        except Exception:
+            return "https://i.ytimg.com/vi/%s/hqdefault.jpg" % video["id"]
     url = "https://vimeo.com/api/oembed.json?width=1280&url=" + urllib.parse.quote("https://vimeo.com/" + video["id"])
     with urllib.request.urlopen(url) as r:
         return json.load(r)["thumbnail_url"]

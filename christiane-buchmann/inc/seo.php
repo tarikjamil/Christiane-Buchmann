@@ -6,9 +6,8 @@
 function cb_page_meta($page)
 {
     $site = cb_site();
-    $suffix = ' – ' . $site['name'] . ', ' . $site['job_title'];
     $meta = array(
-        'title'       => $site['full_name'] . ' – ' . $site['job_title'] . ' (Hamburg / Frankfurt)',
+        'title'       => $site['full_name'] . ' – Director of Photography, Hamburg',
         'description' => $site['description'],
         'canonical'   => cb_url('/'),
         'image'       => cb_asset('images/about-me_retouched.jpg'),
@@ -18,32 +17,32 @@ function cb_page_meta($page)
 
     switch ($page['template']) {
         case 'about':
-            $meta['title'] = 'About' . $suffix;
-            $meta['description'] = 'Biography, awards and festival recognitions of Christiane Buchmann, BVK – German cinematographer trained at Hamburg Media School, EICTV Cuba and Berlinale Talents.';
+            $meta['title'] = 'About Christiane Buchmann – Director of Photography';
+            $meta['description'] = 'Biography and awards of Christiane Buchmann, BVK: German cinematographer trained at Hamburg Media School, EICTV Cuba and Berlinale Talents.';
             $meta['canonical'] = cb_url('about/');
             $meta['image'] = cb_asset('images/about.jpg');
             $meta['og_type'] = 'profile';
             break;
         case 'portfolio':
-            $meta['title'] = 'Work: Narrative, Music Videos, Commercials, Documentaries' . $suffix;
-            $meta['description'] = 'Selected work by cinematographer Christiane Buchmann: TV series and feature films (Tatort, SOKO Linz, Ein Fall für Zwei), music videos, commercials and documentaries.';
+            $meta['title'] = 'Filmography & Work – Christiane Buchmann, DoP';
+            $meta['description'] = 'Work by cinematographer Christiane Buchmann: TV series and films (Tatort, SOKO Linz, Ein Fall für Zwei), music videos, commercials, documentaries.';
             $meta['canonical'] = cb_url('portfolio/');
             $meta['image'] = cb_asset('images/Feature-bearbeitet.jpg');
             break;
         case 'contact':
-            $meta['title'] = 'Contact & Agency' . $suffix;
+            $meta['title'] = 'Contact & Agency – Christiane Buchmann, DoP';
             $meta['description'] = 'Contact Christiane Buchmann, BVK, Director of Photography in Hamburg / Frankfurt. Represented by ' . $site['agency']['name'] . ' (' . $site['agency']['agent'] . ').';
             $meta['canonical'] = cb_url('contact/');
             break;
         case 'privacy':
             $meta['title'] = 'GDPR Privacy Notice – ' . $site['name'];
-            $meta['description'] = 'Privacy notice for christianebuchmann.com.';
+            $meta['description'] = 'GDPR privacy notice for christianebuchmann.com: which data is collected when you visit the site, how it is used and what your rights are.';
             $meta['canonical'] = cb_url('gdpr-privacy-notice/');
             break;
         case 'project':
             $p = $page['project'];
             $name = cb_project_name($p);
-            $meta['title'] = $name . $suffix;
+            $meta['title'] = cb_fit_title($name);
             $intro = $name . ' – cinematography by Christiane Buchmann, BVK.';
             $meta['description'] = cb_excerpt($intro . ' ' . ($p['details'] ? $p['details'] : $p['description']), 160);
             $meta['canonical'] = cb_project_url($p['slug']);
@@ -60,6 +59,18 @@ function cb_page_meta($page)
     }
     $meta['schema'] = cb_schema($page, $meta);
     return $meta;
+}
+
+/** Longest suffix that keeps the title within what Google shows (about 60 characters). */
+function cb_fit_title($name)
+{
+    foreach (array(' – Christiane Buchmann, DoP' => 60, ' – Christiane Buchmann' => 65, '' => 0) as $suffix => $max) {
+        $title = $name . $suffix;
+        if (!$max || (function_exists('mb_strlen') ? mb_strlen($title) : strlen($title)) <= $max) {
+            return $title;
+        }
+    }
+    return $name;
 }
 
 function cb_project_name($p)

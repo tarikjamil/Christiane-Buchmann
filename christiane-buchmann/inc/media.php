@@ -77,6 +77,6 @@ return array(
         'vimeo:427358266' => 'https://i.vimeocdn.com/video/906412661-95f63a03f445a35dbc3218f34ef0569dff0e090d18f8fb20e0e48e06f9d17268-d_1280?region=us',
         'vimeo:83407803' => 'https://i.vimeocdn.com/video/857899907-65562389afea3c89d0ef6d037b64b28c4218f478d1b54246108503e89d474029-d_1280?region=us',
         'vimeo:89231309' => 'https://i.vimeocdn.com/video/857900590-121ab33dbfef1fac5140c48f1d8d01cfb8545da6ae18cf884de0c2c0b71d7f9b-d_1280?region=us',
-        'youtube:LeJ2W0IOBZc' => 'https://i.ytimg.com/vi/LeJ2W0IOBZc/hqdefault.jpg',
+        'youtube:LeJ2W0IOBZc' => 'https://i.ytimg.com/vi/LeJ2W0IOBZc/maxresdefault.jpg',
     ),
 );

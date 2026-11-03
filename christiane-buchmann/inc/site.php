@@ -7,7 +7,7 @@ return array(
     'name'        => 'Christiane Buchmann',
     'full_name'   => 'Christiane Buchmann, BVK',
     'job_title'   => 'Director of Photography',
-    'description' => 'Christiane Buchmann, BVK is a German Director of Photography (cinematographer) based in Hamburg and Frankfurt, working on feature films, TV series, documentaries, music videos and commercials.',
+    'description' => 'Christiane Buchmann, BVK: German Director of Photography in Hamburg and Frankfurt for feature films, TV series, documentaries, music videos and commercials.',
     'quote'       => '"Good stories change the world by inspiring action. They enable us to cross borders. I believe in the power of unique storytelling through strong characters, conflicts‚ and the magic of atmospheres."',
     'email'       => 'hello@christianebuchmann.com',
     'phone'       => '+491716574526',
