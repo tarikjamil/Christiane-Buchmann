@@ -1220,9 +1220,9 @@ html.lenis, html.lenis body { height: auto; }
   padding: 0 0 2.5rem;
   background: var(--pv-cream);
 }
-/* Rule under title is the first child; keep meta-only pages spaced */
-.pv-pinfo:not(:has(.pv-credits)) .pv-meta {
-  padding-top: 1.25rem;
+/* Same title → meta gap as when credits are present (credits use 4rem padding) */
+.pv-pinfo:not(:has(.pv-credits)) {
+  padding-top: 4rem;
 }
 
 /*
