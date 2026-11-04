@@ -285,6 +285,8 @@ function cb_preview_project_title($project)
 
 /**
  * Split a title into lines for ruled typography (rules sit between lines).
+ * Tuned for tablet/mobile: long titles always get explicit breaks so hairlines
+ * frame each line (CSS soft-wrap would skip the middle rule).
  * Short titles stay on one line; longer ones break near the middle for balance
  * (e.g. "La cigale" / "et la fourmi", not "… et la" / "fourmi").
  */
@@ -296,23 +298,30 @@ function cb_preview_title_lines($title)
     }
     $words = preg_split('/\s+/u', $title);
     $n = count($words);
-    // One line when short enough to sit as a single title beat
-    // ("Die Kälte der Erde" ~19 stays one line; longer titles still split)
-    if ($n <= 2 || mb_strlen($title) <= 20) {
+    $len = mb_strlen($title);
+
+    // One line only when the whole title fits a phone title beat
+    if ($n === 1 || $len <= 14) {
+        return array($title);
+    }
+    // Two words: keep together unless too long for a phone line
+    // ("SOKO LINZ", "Anna Log", "DIE PFEFFERKÖRNER" stay one;
+    //  "Volksbanken Raiffeisenbanken" splits)
+    if ($n === 2 && $len <= 20) {
         return array($title);
     }
 
     $best = null;
     $best_score = PHP_INT_MAX;
+
+    // Prefer 2 lines; only use 3 when a 2-line split still overflows a phone
     for ($i = 1; $i < $n; $i++) {
         $line1 = implode(' ', array_slice($words, 0, $i));
         $line2 = implode(' ', array_slice($words, $i));
         $l1 = mb_strlen($line1);
         $l2 = mb_strlen($line2);
         $score = abs($l1 - $l2);
-        // Prefer a break near the middle of the word count
         $score += abs($i - ($n / 2)) * 1.5;
-        // Avoid a lone first/last word on titles with 4+ words
         if ($n >= 4) {
             if ($i === 1) {
                 $score += 10;
@@ -321,11 +330,52 @@ function cb_preview_title_lines($title)
                 $score += 14;
             }
         }
+        // Avoid orphan articles / tiny first words
+        if ($l1 <= 3) {
+            $score += 16;
+        }
+        if ($l2 <= 3) {
+            $score += 16;
+        }
+        foreach (array($line1, $line2) as $line) {
+            if (mb_strlen($line) > 18) {
+                $score += (mb_strlen($line) - 18) * 2.5;
+            }
+        }
         if ($score < $best_score) {
             $best_score = $score;
             $best = array($line1, $line2);
         }
     }
+
+    $needs_three = $best && (mb_strlen($best[0]) > 18 || mb_strlen($best[1]) > 18) && $n >= 4;
+    if ($needs_three) {
+        for ($i = 1; $i < $n - 1; $i++) {
+            for ($j = $i + 1; $j < $n; $j++) {
+                $line1 = implode(' ', array_slice($words, 0, $i));
+                $line2 = implode(' ', array_slice($words, $i, $j - $i));
+                $line3 = implode(' ', array_slice($words, $j));
+                $l1 = mb_strlen($line1);
+                $l2 = mb_strlen($line2);
+                $l3 = mb_strlen($line3);
+                $avg = ($l1 + $l2 + $l3) / 3;
+                $score = abs($l1 - $avg) + abs($l2 - $avg) + abs($l3 - $avg);
+                if ($l1 <= 3 || $l2 <= 3 || $l3 <= 3) {
+                    $score += 14;
+                }
+                foreach (array($line1, $line2, $line3) as $line) {
+                    if (mb_strlen($line) > 16) {
+                        $score += (mb_strlen($line) - 16) * 2;
+                    }
+                }
+                if ($score < $best_score) {
+                    $best_score = $score;
+                    $best = array($line1, $line2, $line3);
+                }
+            }
+        }
+    }
+
     return $best ? $best : array($title);
 }
 

@@ -1042,13 +1042,14 @@ html.lenis, html.lenis body { height: auto; }
   display: block;
   width: 100%;
   height: var(--pv-rule-h);
+  min-height: 1px; /* 0.5px can drop out on some mobile DPR */
   background-color: var(--pv-rule);
   border: 0;
 }
 .pv-ptitle__name {
   margin: 0;
   font-family: var(--pv-font-display);
-  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  font-size: clamp(2.15rem, 8vw, 5.5rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -1056,8 +1057,19 @@ html.lenis, html.lenis body { height: auto; }
 }
 .pv-ptitle__line {
   display: block;
+  /* Keep each PHP line atomic — soft-wrap would skip the middle rule */
+  white-space: nowrap;
   /* rem (not em) — tight to rules, clear of umlauts */
   padding: 0.45rem var(--pv-pad) 0.2rem;
+}
+@media (max-width: 899px) {
+  .pv-ruled__line {
+    height: 1px;
+    min-height: 1px;
+  }
+  .pv-ptitle__name {
+    font-size: clamp(1.85rem, 7.2vw, 3.35rem);
+  }
 }
 .pv-ptitle__sub {
   margin: 0;
