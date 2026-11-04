@@ -997,9 +997,9 @@
       var words = source.split(' ').filter(Boolean);
       if (!words.length) return;
 
-      // A24 data-balance-lines="2": always split 2+ word titles into balanced lines.
+      // Keep on one line when it fits; only break when the title overflows.
       var lines;
-      if (words.length === 1) {
+      if (words.length === 1 || fits(el, source, maxWidth)) {
         lines = [source];
       } else if (words.length === 2) {
         lines = bestSplit(words, maxWidth, el, 2) || [source];
