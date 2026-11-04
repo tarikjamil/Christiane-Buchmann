@@ -104,9 +104,9 @@ return array(
     ),
 
     /* Analytics — live layout only; preview stays untracked.
-       When GTM is ready, set gtm_id and clear ga4_id (or leave both: GTM wins). */
+       GTM wins when set; GA4 is loaded via the GTM container (see tools/gtm-container-export.json). */
     'ga4_id' => 'G-LW6EE8CZ1Y',
-    'gtm_id' => '',
+    'gtm_id' => 'GTM-M9XXZQPF',
 
     'webflow_site' => '5eb547cb728d3b8acbcb6f7b',
     'webflow_pages' => array(
