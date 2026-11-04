@@ -32,7 +32,7 @@ include cb_theme_dir() . '/templates/preview/nav.php';
 <main id="pv-main" class="pv-about">
   <section class="pv-ahero" data-pv-parallax data-pv-parallax-travel="14">
     <div class="pv-ahero__media" data-pv-parallax-layer aria-hidden="true">
-      <img src="<?php echo esc_url(cb_asset('images/about.jpg')); ?>" alt="Christiane Buchmann, Director of Photography, on set">
+      <img<?php echo cb_img_attrs('images/about.jpg', '100vw'); ?> alt="Christiane Buchmann, Director of Photography, on set" fetchpriority="high" decoding="async">
       <div class="pv-ahero__shade"></div>
     </div>
     <div class="pv-ahero__content">
@@ -59,12 +59,12 @@ include cb_theme_dir() . '/templates/preview/nav.php';
   <section class="pv-astory" aria-label="Biography">
     <figure class="pv-astory__frame pv-astory__frame--side" data-pv-parallax data-pv-parallax-travel="12">
       <div class="pv-astory__media" data-pv-parallax-layer>
-        <img src="<?php echo esc_url(cb_asset('images/bio.jpg')); ?>" alt="Christiane Buchmann operating a camera" loading="lazy">
+        <img<?php echo cb_img_attrs('images/bio.jpg', '(max-width: 899px) 100vw, 40vw'); ?> alt="Christiane Buchmann operating a camera" loading="lazy" decoding="async">
       </div>
     </figure>
     <figure class="pv-astory__frame pv-astory__frame--large" data-pv-parallax data-pv-parallax-travel="14">
       <div class="pv-astory__media" data-pv-parallax-layer>
-        <img src="<?php echo esc_url(cb_asset('images/aboutpage.jpg')); ?>" alt="On set with Christiane Buchmann" loading="lazy">
+        <img<?php echo cb_img_attrs('images/aboutpage.jpg', '(max-width: 899px) 100vw, 60vw'); ?> alt="On set with Christiane Buchmann" loading="lazy" decoding="async">
       </div>
     </figure>
     <div class="pv-astory__copy">
@@ -109,7 +109,7 @@ include cb_theme_dir() . '/templates/preview/nav.php';
 
     <div class="pv-areviews__frame">
       <div class="pv-areviews__clip">
-        <img class="pv-areviews__bg" src="<?php echo esc_url(cb_asset('images/bio_awards.jpg')); ?>" alt="" aria-hidden="true">
+        <img class="pv-areviews__bg"<?php echo cb_img_attrs('images/bio_awards.jpg', '100vw'); ?> alt="" aria-hidden="true" loading="lazy" decoding="async">
         <div class="pv-areviews__shade"></div>
         <div class="pv-areviews__viewport">
           <div class="pv-areviews__cols">

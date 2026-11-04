@@ -87,7 +87,7 @@ include cb_theme_dir() . '/templates/preview/nav.php';
       </div>
       <?php elseif (!empty($panel['image'])) : ?>
       <div class="pv-panel__media" data-pv-parallax-layer aria-hidden="true">
-        <img class="pv-panel__img" src="<?php echo esc_url(cb_asset($panel['image'])); ?>" alt="" loading="<?php echo $i === 0 ? 'eager' : 'lazy'; ?>">
+        <img class="pv-panel__img"<?php echo cb_img_attrs($panel['image'], '100vw'); ?> alt="" loading="<?php echo $i === 0 ? 'eager' : 'lazy'; ?>"<?php echo $i === 0 ? ' fetchpriority="high"' : ''; ?> decoding="async">
         <div class="pv-panel__shade"></div>
       </div>
       <?php endif; ?>
@@ -130,13 +130,13 @@ include cb_theme_dir() . '/templates/preview/nav.php';
         </div>
         <div class="pv-showcase__rail" data-pv-showcase-rail tabindex="0">
           <?php foreach ($featured as $i => $project) :
-            $img = $project['image'] ? cb_upload($project['image']) : cb_asset('images/corious_retouched.jpg');
+            $img_path = !empty($project['image']) ? $project['image'] : 'images/corious_retouched.jpg';
             $cat = $site['categories'][$project['category']]['label'];
             $year = cb_project_year($project);
           ?>
           <a class="pv-showcase__card" href="<?php echo esc_url(cb_preview_project_url($project['slug'])); ?>">
             <div class="pv-showcase__visual">
-              <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr(cb_project_alt($project)); ?>" loading="lazy">
+              <img<?php echo cb_img_attrs($img_path, '(max-width: 899px) 85vw, 28vw'); ?> alt="<?php echo esc_attr(cb_project_alt($project)); ?>" loading="lazy" decoding="async">
             </div>
             <div class="pv-showcase__content">
               <div class="pv-showcase__top">

@@ -1,14 +1,13 @@
 <?php
 $site = cb_site();
 $projects = cb_projects();
-$hero_img = cb_asset('images/Feature-bearbeitet.jpg');
 $pv_nav_dark = true;
 include cb_theme_dir() . '/templates/preview/nav.php';
 ?>
 <main id="pv-main" class="pv-work">
   <section class="pv-whero" data-pv-parallax data-pv-parallax-travel="14">
     <div class="pv-whero__media" data-pv-parallax-layer aria-hidden="true">
-      <img src="<?php echo esc_url($hero_img); ?>" alt="" class="pv-whero__img">
+      <img<?php echo cb_img_attrs('images/Feature-bearbeitet.jpg', '100vw'); ?> alt="" class="pv-whero__img" fetchpriority="high" decoding="async">
       <div class="pv-whero__shade"></div>
     </div>
     <div class="pv-whero__content">
@@ -51,14 +50,14 @@ include cb_theme_dir() . '/templates/preview/nav.php';
 
   <section class="pv-wgrid" data-pv-grid>
     <?php foreach ($projects as $i => $project) :
-      $img = $project['image'] ? cb_upload($project['image']) : cb_asset('images/corious_retouched.jpg');
+      $img_path = !empty($project['image']) ? $project['image'] : 'images/corious_retouched.jpg';
       $cat = $site['categories'][$project['category']]['label'];
       $year = cb_project_year($project);
       $search = strtolower(cb_project_name($project) . ' ' . $project['title'] . ' ' . $project['subtitle'] . ' ' . $cat . ' ' . $year);
     ?>
     <a class="pv-showcase__card pv-wcard" href="<?php echo esc_url(cb_preview_project_url($project['slug'])); ?>" data-category="<?php echo esc_attr($project['category']); ?>" data-search="<?php echo esc_attr($search); ?>">
       <div class="pv-showcase__visual">
-        <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr(cb_project_alt($project)); ?>" loading="lazy">
+        <img<?php echo cb_img_attrs($img_path, '(max-width: 899px) 100vw, 33vw'); ?> alt="<?php echo esc_attr(cb_project_alt($project)); ?>" loading="lazy" decoding="async">
       </div>
       <div class="pv-showcase__content">
         <div class="pv-showcase__top">

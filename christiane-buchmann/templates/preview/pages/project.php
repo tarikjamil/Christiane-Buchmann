@@ -3,7 +3,8 @@ $project = $page['project'];
 $site = cb_site();
 $name = cb_project_name($project);
 $cat = isset($site['categories'][$project['category']]) ? $site['categories'][$project['category']]['label'] : $project['category'];
-$hero = $project['image'] ? cb_upload($project['image']) : cb_asset('images/corious_retouched.jpg');
+$hero_path = !empty($project['image']) ? $project['image'] : 'images/corious_retouched.jpg';
+$hero = cb_upload($hero_path);
 $credits = cb_preview_credits($project);
 $meta_rows = cb_preview_meta_rows($project);
 $pv_nav_dark = true;
@@ -12,7 +13,7 @@ include cb_theme_dir() . '/templates/preview/nav.php';
 <main id="pv-main" class="pv-project">
   <section class="pv-phero" data-pv-parallax data-pv-parallax-travel="14">
     <div class="pv-phero__media" data-pv-parallax-layer aria-hidden="true">
-      <img src="<?php echo esc_url($hero); ?>" alt="" class="pv-phero__img">
+      <img class="pv-phero__img"<?php echo cb_img_attrs($hero_path, '100vw'); ?> alt="" fetchpriority="high" decoding="async">
       <div class="pv-phero__shade"></div>
     </div>
   </section>
@@ -168,7 +169,7 @@ include cb_theme_dir() . '/templates/preview/nav.php';
           aria-label="<?php echo esc_attr('View still ' . ($i + 1)); ?>"
         >
           <span class="pv-gallery__frame" data-pv-parallax data-pv-parallax-travel="<?php echo $place === 2 || $place === 4 ? '10' : '14'; ?>">
-            <img class="pv-gallery__img" data-pv-parallax-layer src="<?php echo esc_url($src); ?>" alt="<?php echo esc_attr($alt); ?>" loading="lazy" decoding="async">
+            <img class="pv-gallery__img" data-pv-parallax-layer<?php echo cb_img_attrs($img['src'], '(max-width: 899px) 90vw, 45vw'); ?> alt="<?php echo esc_attr($alt); ?>" loading="lazy" decoding="async">
           </span>
         </button>
         <?php if (!empty($img['caption'])) : ?>

@@ -6,7 +6,7 @@
  */
 
 define('CB_THEME_DIR', dirname(__DIR__) . '/christiane-buchmann');
-define('CB_LIVE', 'http://christianebuchmann.com');
+define('CB_LIVE', 'https://christianebuchmann.com');
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 

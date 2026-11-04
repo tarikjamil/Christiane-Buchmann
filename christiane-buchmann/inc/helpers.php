@@ -163,38 +163,89 @@ function cb_asset($path, $prefer_avif = true)
 }
 
 /** srcset for a theme image, using the Webflow "-p-{width}" variants next to it. */
-function cb_srcset($path)
+function cb_srcset($path, $sizes = '100vw')
 {
     $file = cb_theme_dir() . '/' . $path;
     $base = preg_replace('/\.[a-z]+$/i', '', $path);
     $use_avif = cb_avif_path($path) !== $path;
     $sources = array();
-    $pattern = $use_avif
-        ? cb_theme_dir() . '/' . $base . '-p-*.avif'
-        : cb_theme_dir() . '/' . $base . '-p-*.jpeg';
-    foreach (glob($pattern) as $variant) {
-        if (preg_match('/-p-(\d+)\.(?:jpeg|avif)$/', $variant, $m)) {
-            $ext = $use_avif ? 'avif' : 'jpeg';
-            $sources[(int) $m[1]] = cb_asset($base . '-p-' . $m[1] . '.' . $ext, false) . ' ' . $m[1] . 'w';
+    $ext = 'jpeg';
+    if ($use_avif) {
+        $avif_variants = glob(cb_theme_dir() . '/' . $base . '-p-*.avif') ?: array();
+        if ($avif_variants) {
+            $ext = 'avif';
+            foreach ($avif_variants as $variant) {
+                if (preg_match('/-p-(\d+)\.avif$/', $variant, $m)) {
+                    $sources[(int) $m[1]] = cb_asset($base . '-p-' . $m[1] . '.avif', false) . ' ' . $m[1] . 'w';
+                }
+            }
         }
+    }
+    if (!$sources) {
+        foreach (glob(cb_theme_dir() . '/' . $base . '-p-*.jpeg') ?: array() as $variant) {
+            if (preg_match('/-p-(\d+)\.jpeg$/', $variant, $m)) {
+                $sources[(int) $m[1]] = cb_asset($base . '-p-' . $m[1] . '.jpeg', false) . ' ' . $m[1] . 'w';
+            }
+        }
+        $ext = 'jpeg';
     }
     if (!$sources || !file_exists($file)) {
         return '';
     }
-    $size = getimagesize($file);
-    $main = $use_avif ? cb_avif_path($path) : $path;
-    $sources[$size[0]] = cb_asset($main, false) . ' ' . $size[0] . 'w';
+    $size = @getimagesize($file);
+    $main = ($use_avif && $ext === 'avif') ? cb_avif_path($path) : $path;
+    if ($size) {
+        $sources[(int) $size[0]] = cb_asset($main, false) . ' ' . (int) $size[0] . 'w';
+    }
     ksort($sources);
-    return ' srcset="' . esc_attr(implode(', ', $sources)) . '" sizes="100vw"';
+    return ' srcset="' . esc_attr(implode(', ', $sources)) . '" sizes="' . esc_attr($sizes) . '"';
+}
+
+/**
+ * Build src (+ optional srcset/sizes/width/height) attributes for a theme or upload image.
+ * $path is a theme-relative path (images/…), an uploads path, or an absolute URL.
+ */
+function cb_img_attrs($path, $sizes = '100vw')
+{
+    if ($path === '') {
+        return '';
+    }
+    if (strpos($path, 'images/') === 0) {
+        $attrs = ' src="' . esc_url(cb_asset($path)) . '"';
+        $srcset = cb_srcset($path, $sizes);
+        if ($srcset) {
+            $attrs .= $srcset;
+        }
+        $file = cb_theme_dir() . '/' . $path;
+        if (is_file($file) && ($dim = @getimagesize($file))) {
+            $attrs .= ' width="' . (int) $dim[0] . '" height="' . (int) $dim[1] . '"';
+        }
+        return $attrs;
+    }
+    $attrs = ' src="' . esc_url(cb_upload($path)) . '"';
+    $attrs .= cb_size_attrs($path);
+    return $attrs;
 }
 
 function cb_upload($path)
 {
-    if ($path === '' || preg_match('#^https?://#', $path)) {
+    if ($path === '') {
+        return $path;
+    }
+    if (preg_match('#^https?://#', $path)) {
+        // Live media should always load over HTTPS.
+        if (preg_match('#^http://((?:www\.)?christianebuchmann\.com)/#i', $path)) {
+            return preg_replace('#^http://#i', 'https://', $path);
+        }
         return $path;
     }
     if (strpos($path, 'images/') === 0) {
         return cb_asset($path);
+    }
+    $path = '/' . ltrim($path, '/');
+    // Preview server: point uploads straight at the live HTTPS origin (skip http→https hop).
+    if (defined('CB_LIVE') && strpos($path, '/wp-content/uploads/') === 0) {
+        return rtrim(CB_LIVE, '/') . $path;
     }
     return cb_url($path);
 }
