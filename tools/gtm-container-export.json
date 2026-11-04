@@ -2337,14 +2337,68 @@
       {
         "accountId": "0",
         "containerId": "0",
+        "type": "SCROLL_DEPTH_THRESHOLD",
+        "name": "Scroll Depth Threshold"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "HISTORY_SOURCE",
+        "name": "History Source"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "SCROLL_DEPTH_UNITS",
+        "name": "Scroll Depth Units"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "NEW_HISTORY_FRAGMENT",
+        "name": "New History Fragment"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "FORM_CLASSES",
+        "name": "Form Classes"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "FORM_TEXT",
+        "name": "Form Text"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
         "type": "PAGE_URL",
         "name": "Page URL"
       },
       {
         "accountId": "0",
         "containerId": "0",
-        "type": "PAGE_HOSTNAME",
-        "name": "Page Hostname"
+        "type": "OLD_HISTORY_FRAGMENT",
+        "name": "Old History Fragment"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "FORM_ID",
+        "name": "Form ID"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "FORM_ELEMENT",
+        "name": "Form Element"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "CLICK_ID",
+        "name": "Click ID"
       },
       {
         "accountId": "0",
@@ -2355,14 +2409,38 @@
       {
         "accountId": "0",
         "containerId": "0",
+        "type": "OLD_HISTORY_STATE",
+        "name": "Old History State"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
         "type": "REFERRER",
         "name": "Referrer"
       },
       {
         "accountId": "0",
         "containerId": "0",
-        "type": "CLICK_URL",
-        "name": "Click URL"
+        "type": "CLICK_ELEMENT",
+        "name": "Click Element"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "NEW_HISTORY_STATE",
+        "name": "New History State"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "SCROLL_DEPTH_DIRECTION",
+        "name": "Scroll Depth Direction"
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "type": "PAGE_HOSTNAME",
+        "name": "Page Hostname"
       },
       {
         "accountId": "0",
@@ -2379,98 +2457,14 @@
       {
         "accountId": "0",
         "containerId": "0",
-        "type": "CLICK_ID",
-        "name": "Click ID"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "CLICK_ELEMENT",
-        "name": "Click Element"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "FORM_ID",
-        "name": "Form ID"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "FORM_CLASSES",
-        "name": "Form Classes"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "FORM_ELEMENT",
-        "name": "Form Element"
+        "type": "CLICK_URL",
+        "name": "Click URL"
       },
       {
         "accountId": "0",
         "containerId": "0",
         "type": "FORM_URL",
         "name": "Form URL"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "FORM_TEXT",
-        "name": "Form Text"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "SCROLL_DEPTH_THRESHOLD",
-        "name": "Scroll Depth Threshold"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "SCROLL_DEPTH_UNITS",
-        "name": "Scroll Depth Units"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "SCROLL_DEPTH_DIRECTION",
-        "name": "Scroll Depth Direction"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "HISTORY_SOURCE",
-        "name": "History Source"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "NEW_HISTORY_FRAGMENT",
-        "name": "New History Fragment"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "OLD_HISTORY_FRAGMENT",
-        "name": "Old History Fragment"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "NEW_HISTORY_STATE",
-        "name": "New History State"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "OLD_HISTORY_STATE",
-        "name": "Old History State"
-      },
-      {
-        "accountId": "0",
-        "containerId": "0",
-        "type": "HISTORY_LENGTH",
-        "name": "History Length"
       }
     ],
     "fingerprint": "1793813811176",
