@@ -901,4 +901,151 @@
       el.innerHTML = html;
     });
   })();
+
+  /* —— A24-style title line balance (fit viewport, keep ruled lines) —— */
+  (function () {
+    var titles = document.querySelectorAll('[data-pv-balance-title]');
+    if (!titles.length) return;
+
+    var measure = document.createElement('span');
+    measure.setAttribute('aria-hidden', 'true');
+    measure.style.cssText =
+      'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;pointer-events:none;';
+    document.body.appendChild(measure);
+
+    function lineWidth(el, text) {
+      var cs = window.getComputedStyle(el);
+      measure.style.fontFamily = cs.fontFamily;
+      measure.style.fontSize = cs.fontSize;
+      measure.style.fontWeight = cs.fontWeight;
+      measure.style.letterSpacing = cs.letterSpacing;
+      measure.style.textTransform = cs.textTransform;
+      measure.textContent = text;
+      return measure.getBoundingClientRect().width;
+    }
+
+    function fits(el, text, maxWidth) {
+      return lineWidth(el, text) <= maxWidth + 0.5;
+    }
+
+    function bestSplit(words, maxWidth, el, parts) {
+      var best = null;
+      var bestScore = Infinity;
+
+      function scoreLines(lines) {
+        var widths = lines.map(function (l) {
+          return lineWidth(el, l);
+        });
+        var avg =
+          widths.reduce(function (a, b) {
+            return a + b;
+          }, 0) / widths.length;
+        var score = widths.reduce(function (a, w) {
+          return a + Math.abs(w - avg);
+        }, 0);
+        // Soft penalty for overflow — still prefer a real split over one fat line
+        widths.forEach(function (w) {
+          if (w > maxWidth + 0.5) score += (w - maxWidth) * 6 + 80;
+        });
+        score += lines.length * 6;
+        lines.forEach(function (l) {
+          if (l.length <= 3) score += 40;
+        });
+        return score;
+      }
+
+      if (parts === 2) {
+        for (var i = 1; i < words.length; i++) {
+          var lines2 = [words.slice(0, i).join(' '), words.slice(i).join(' ')];
+          var s2 = scoreLines(lines2);
+          if (s2 < bestScore) {
+            bestScore = s2;
+            best = lines2;
+          }
+        }
+        return best;
+      }
+
+      for (var a = 1; a < words.length - 1; a++) {
+        for (var b = a + 1; b < words.length; b++) {
+          var lines3 = [
+            words.slice(0, a).join(' '),
+            words.slice(a, b).join(' '),
+            words.slice(b).join(' ')
+          ];
+          var s3 = scoreLines(lines3);
+          if (s3 < bestScore) {
+            bestScore = s3;
+            best = lines3;
+          }
+        }
+      }
+      return best;
+    }
+
+    function balance(el) {
+      var source = (el.getAttribute('data-pv-balance-title') || '').replace(/\s+/g, ' ').trim();
+      var ruled = el.querySelector('[data-pv-balance-ruled]');
+      if (!source || !ruled) return;
+
+      // Available width inside the padded title line (match .pv-ptitle__line side pad)
+      var probe = ruled.querySelector('.pv-ptitle__line') || el;
+      var csPad = window.getComputedStyle(probe);
+      var padL = parseFloat(csPad.paddingLeft) || 0;
+      var padR = parseFloat(csPad.paddingRight) || 0;
+      var maxWidth = Math.max(120, el.getBoundingClientRect().width - padL - padR - 4);
+      var words = source.split(' ').filter(Boolean);
+      if (!words.length) return;
+
+      // A24 data-balance-lines="2": always split 2+ word titles into balanced lines.
+      var lines;
+      if (words.length === 1) {
+        lines = [source];
+      } else if (words.length === 2) {
+        lines = bestSplit(words, maxWidth, el, 2) || [source];
+      } else {
+        var two = bestSplit(words, maxWidth, el, 2);
+        var three = bestSplit(words, maxWidth, el, 3);
+        // Prefer 2 lines unless a 3-line split clearly fits better (less overflow)
+        if (two && three) {
+          var overflow2 = two.some(function (l) {
+            return !fits(el, l, maxWidth);
+          });
+          var overflow3 = three.some(function (l) {
+            return !fits(el, l, maxWidth);
+          });
+          lines = overflow2 && !overflow3 ? three : two;
+        } else {
+          lines = two || three || [source];
+        }
+      }
+
+      var html = '<span class="pv-ruled__line" aria-hidden="true"></span>';
+      lines.forEach(function (line) {
+        var overflow = !fits(el, line, maxWidth);
+        html +=
+          '<span class="pv-ptitle__line"' +
+          (overflow ? ' style="white-space:normal"' : '') +
+          '>' +
+          line.replace(/&/g, '&amp;').replace(/</g, '&lt;') +
+          '</span>' +
+          '<span class="pv-ruled__line" aria-hidden="true"></span>';
+      });
+      ruled.innerHTML = html;
+    }
+
+    function balanceAll() {
+      titles.forEach(balance);
+    }
+
+    balanceAll();
+    var t;
+    window.addEventListener('resize', function () {
+      clearTimeout(t);
+      t = setTimeout(balanceAll, 100);
+    });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(balanceAll).catch(function () {});
+    }
+  })();
 })();

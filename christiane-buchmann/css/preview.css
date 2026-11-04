@@ -1057,10 +1057,10 @@ html.lenis, html.lenis body { height: auto; }
 }
 .pv-ptitle__line {
   display: block;
-  /* Keep each PHP line atomic — soft-wrap would skip the middle rule */
-  white-space: nowrap;
   /* rem (not em) — tight to rules, clear of umlauts */
   padding: 0.45rem var(--pv-pad) 0.2rem;
+  /* JS balancer sets nowrap once lines fit the viewport */
+  white-space: nowrap;
 }
 @media (max-width: 899px) {
   .pv-ruled__line {
@@ -1068,9 +1068,11 @@ html.lenis, html.lenis body { height: auto; }
     min-height: 1px;
   }
   .pv-ptitle__name {
-    font-size: clamp(1.85rem, 7.2vw, 3.35rem);
+    /* Large like A24 heading-l; JS balancer splits lines to fit */
+    font-size: clamp(2rem, 9.5vw, 3.5rem);
   }
 }
+
 .pv-ptitle__sub {
   margin: 0;
   font-size: 0.95rem;
@@ -1224,9 +1226,14 @@ html.lenis, html.lenis body { height: auto; }
   padding-top: 4rem;
 }
 
-/* A24 Tony — inline text flow so wrapped rows stay evenly centered */
+/* A24 Marty — wrap-flow credits; atoms nowrap, container wraps */
 .pv-credits {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.55em;
+  row-gap: 0.45em;
   text-align: center;
   width: min(calc(100% - 2 * var(--pv-pad)), var(--pv-media));
   max-width: 80ch;
@@ -1236,12 +1243,12 @@ html.lenis, html.lenis body { height: auto; }
 }
 .pv-credit {
   display: inline-flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 0.3em;
-  margin: 0 0.55em;
-  white-space: nowrap;
+  margin: 0;
   max-width: 100%;
+  white-space: normal;
   vertical-align: baseline;
 }
 .pv-credit__role {
@@ -1252,6 +1259,7 @@ html.lenis, html.lenis body { height: auto; }
   line-height: 1;
   text-transform: uppercase;
   color: var(--pv-ink);
+  white-space: nowrap;
 }
 .pv-credit__name {
   margin: 0;
@@ -1259,6 +1267,7 @@ html.lenis, html.lenis body { height: auto; }
   font-weight: 500;
   line-height: 1;
   color: var(--pv-ink);
+  white-space: nowrap;
 }
 .pv-credit__note {
   display: block;

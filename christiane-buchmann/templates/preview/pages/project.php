@@ -24,8 +24,8 @@ include cb_theme_dir() . '/templates/preview/nav.php';
     $display_title = cb_preview_project_title($project);
     $title_lines = cb_preview_title_lines($display_title);
     ?>
-    <h1 class="pv-ptitle__name">
-      <span class="pv-ruled">
+    <h1 class="pv-ptitle__name" data-pv-balance-title="<?php echo esc_attr($display_title); ?>">
+      <span class="pv-ruled" data-pv-balance-ruled>
         <span class="pv-ruled__line" aria-hidden="true"></span>
         <?php foreach ($title_lines as $line) : ?>
         <span class="pv-ptitle__line"><?php cb_e($line); ?></span>
