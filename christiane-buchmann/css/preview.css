@@ -1226,14 +1226,12 @@ html.lenis, html.lenis body { height: auto; }
   padding-top: 4rem;
 }
 
-/* A24 Marty — wrap-flow credits; atoms nowrap, container wraps */
+/* Stacked centered credits — each role+name is its own centered row */
 .pv-credits {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: baseline;
-  column-gap: 0.55em;
-  row-gap: 0.45em;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55em;
   text-align: center;
   width: min(calc(100% - 2 * var(--pv-pad)), var(--pv-media));
   max-width: 80ch;
@@ -1242,14 +1240,10 @@ html.lenis, html.lenis body { height: auto; }
   line-height: 1;
 }
 .pv-credit {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.3em;
-  margin: 0;
+  display: block;
   max-width: 100%;
+  text-align: center;
   white-space: normal;
-  vertical-align: baseline;
 }
 .pv-credit__role {
   margin: 0;
@@ -1261,13 +1255,18 @@ html.lenis, html.lenis body { height: auto; }
   color: var(--pv-ink);
   white-space: nowrap;
 }
+.pv-credit__role::after {
+  content: "\00a0"; /* keep role glued to the first name */
+}
 .pv-credit__name {
   margin: 0;
   font-size: 0.84375rem; /* 13.5px */
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.35;
   color: var(--pv-ink);
-  white-space: nowrap;
+}
+.pv-credit__name + .pv-credit__name::before {
+  content: "\00a0";
 }
 .pv-credit__note {
   display: block;
