@@ -37,7 +37,7 @@ include cb_theme_dir() . '/templates/preview/nav.php';
   <section class="pv-pinfo">
     <span class="pv-ruled__line" aria-hidden="true"></span>
     <?php if ($credits) : ?>
-    <div class="pv-credits">
+    <div class="pv-credits" data-pv-wrap-flow>
       <?php foreach ($credits as $c) :
         $name_lines = cb_preview_credit_name_lines($c['names']);
         $people = array_values(array_filter($name_lines, function ($n) { return !$n[1]; }));
@@ -45,7 +45,6 @@ include cb_theme_dir() . '/templates/preview/nav.php';
         $pi = 0;
         $notes = array_values(array_filter($name_lines, function ($n) { return $n[1]; }));
       ?>
-      <span class="pv-credit">
         <span class="pv-credit__role"><?php cb_e(strtoupper($c['label'])); ?></span>
         <?php foreach ($people as $person) :
           $pi++;
@@ -53,10 +52,9 @@ include cb_theme_dir() . '/templates/preview/nav.php';
         ?>
         <span class="pv-credit__name"><?php cb_e($person[0]); ?><?php echo $comma ? ',' : ''; ?></span>
         <?php endforeach; ?>
-      </span>
-      <?php foreach ($notes as $note) : ?>
-      <span class="pv-credit__note"><?php cb_e($note[0]); ?></span>
-      <?php endforeach; ?>
+        <?php foreach ($notes as $note) : ?>
+        <span class="pv-credit__note"><?php cb_e($note[0]); ?></span>
+        <?php endforeach; ?>
       <?php endforeach; ?>
     </div>
     <?php endif; ?>
