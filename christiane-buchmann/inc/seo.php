@@ -267,7 +267,8 @@ function cb_render_robots()
     header('Content-Type: text/plain; charset=utf-8');
     echo "User-agent: *\n";
     echo "Disallow: /wp-admin/\n";
-    echo "Allow: /wp-admin/admin-ajax.php\n\n";
+    echo "Allow: /wp-admin/admin-ajax.php\n";
+    echo "Disallow: /preview/\n\n";
     echo 'Sitemap: ' . cb_url('sitemap.xml') . "\n";
 }
 

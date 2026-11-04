@@ -3,6 +3,7 @@
 require_once __DIR__ . '/inc/helpers.php';
 require_once __DIR__ . '/inc/router.php';
 require_once __DIR__ . '/inc/seo.php';
+require_once __DIR__ . '/inc/preview.php';
 
 add_action('parse_request', 'cb_handle_request', 0);
 

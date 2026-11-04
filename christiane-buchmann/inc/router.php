@@ -110,6 +110,19 @@ function cb_dispatch($path)
             return cb_redirect_asset('images/favicon.jpg');
     }
 
+    if ($path === 'preview' || strpos($path, 'preview/') === 0) {
+        $sub = $path === 'preview' ? '' : substr($path, strlen('preview/'));
+        $uri_path = parse_url(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/', PHP_URL_PATH);
+        $has_slash = substr((string) $uri_path, -1) === '/';
+        if ($path !== 'preview' && $sub !== '' && !$has_slash && !preg_match('/\.[a-z0-9]+$/i', $sub)) {
+            cb_redirect($path . '/');
+        }
+        if ($path === 'preview' && !$has_slash) {
+            cb_redirect('preview/');
+        }
+        return cb_preview_dispatch($sub);
+    }
+
     $redirects = cb_redirects();
     if (isset($redirects[$path])) {
         cb_redirect($redirects[$path]);

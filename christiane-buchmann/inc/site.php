@@ -9,6 +9,63 @@ return array(
     'job_title'   => 'Director of Photography',
     'description' => 'Christiane Buchmann, BVK: German Director of Photography in Hamburg and Frankfurt for feature films, TV series, documentaries, music videos and commercials.',
     'quote'       => '"Good stories change the world by inspiring action. They enable us to cross borders. I believe in the power of unique storytelling through strong characters, conflicts‚ and the magic of atmospheres."',
+
+    'bio' => array(
+        'Christiane Buchmann is a distinctive Director of Photography with a strong sense of humanity. With individual visual aspects to tell a story, she is an upcoming strong voice in the german independent cinema. Buchmann is mostly intrigued by unique female storytelling, which she portraits with her camera in an exceptional intimate way - bringing characters’ inner-life to screen with honest subjectivity.',
+        'Buchmanns first feature film „Wo kein Schatten fällt/ Hanna’s Homecoming“ defines the mystery genre with a refreshing cinematic look. The film had it’s world premiere at the Women’s International Film Fest in Los Angeles and national at the prestigious german „Hofer Filmtage“ 2018. Her several short films and documentaries have made a long list of A festival participations among Clermont Ferrand Film Festival, Camerimage Film Festival, Cannes Short Film Corner, Palm Springs Short Fest, Mar del Plata International Film Fest and many others.',
+        'Buchmann studied one semester abroad at the famous filmschool EICTV in Cuba before she graduated 2010 at the University of Applied Science in Dortmund. In 2012 she did her Master degree in Cinematography at Hamburg Media School. Among others Buchmann was trained by Michael Ballhaus, Antonio Calvache, Yann Le Masson, Judith Kaufmann, Benedict Neuenfels and David Slama.',
+        'In 2013 Christiane took part in the Generation Campus “World of Post”, a VFX master class in Moscow, and in 2015 she was selected as a participant in the Berlinale Talents. 2018 Christiane joined the network Cinematographinnen. Since 2019 she is a member of the German Society of Cinematographers BVK.',
+        'Travelling all over the globe she loves getting inspired for her work.',
+    ),
+
+    'awards' => array(
+        array(
+            'label' => '2× Nominated Best Cinematography',
+            'title' => 'Camerimage International Film Festival',
+            'detail' => 'Nightbus & Dedowtschina',
+        ),
+        array(
+            'label' => '2× Nominated Best Cinematography',
+            'title' => 'International Womens Filmfestival Dortmund / Cologne',
+            'detail' => 'Efecto Dominó & Dedowtschina',
+        ),
+        array(
+            'label' => 'Winner Youth Jury Award',
+            'title' => 'Clermont Ferrand International Short Film Festival',
+            'detail' => 'Efecto Dominó',
+        ),
+        array(
+            'label' => 'Winner Best Latin American Short Film',
+            'title' => 'Mar del Plata International Film Festival',
+            'detail' => 'Efecto Dominó',
+        ),
+        array(
+            'label' => 'Winner Young Talent Award',
+            'title' => 'European Film Festival Lille',
+            'detail' => 'Efecto Dominó',
+        ),
+        array(
+            'label' => 'Winner Official Murnau Award',
+            'title' => 'Murnau Foundation Wiesbaden',
+            'detail' => 'ExMun',
+        ),
+        array(
+            'label' => 'Nominated German Newcomer Film Award',
+            'title' => 'First Steps Award',
+            'detail' => 'Dedowtschina',
+        ),
+        array(
+            'label' => 'Winner LisFE Award',
+            'title' => 'Leiden International Film Festival',
+            'detail' => 'Efecto Dominó',
+        ),
+        array(
+            'label' => 'Presented in Short Film Corner',
+            'title' => 'Festival de Cannes',
+            'detail' => 'Sinema Leo',
+        ),
+    ),
+
     'email'       => 'hello@christianebuchmann.com',
     'phone'       => '+491716574526',
     'phone_label' => '+49 171- 65 74 526',

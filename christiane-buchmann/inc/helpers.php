@@ -9,6 +9,34 @@ function cb_site($key = null)
     return $key === null ? $site : $site[$key];
 }
 
+/** True when $url points at a different host than this site. */
+function cb_is_external_url($url)
+{
+    $url = trim((string) $url);
+    if ($url === '' || $url[0] === '#' || stripos($url, 'mailto:') === 0 || stripos($url, 'tel:') === 0 || stripos($url, 'javascript:') === 0) {
+        return false;
+    }
+    $host = parse_url($url, PHP_URL_HOST);
+    if (!$host) {
+        return false; // relative / same-origin path
+    }
+    $site_host = parse_url(cb_url('/'), PHP_URL_HOST);
+    if (!$site_host) {
+        return true;
+    }
+    return strcasecmp($host, $site_host) !== 0;
+}
+
+/** Append target=_blank rel=noopener for external URLs unless already set. */
+function cb_external_link_attrs($url, $attrs = '')
+{
+    $attrs = trim((string) $attrs);
+    if (!cb_is_external_url($url) || preg_match('/\btarget\s*=/i', $attrs)) {
+        return $attrs;
+    }
+    return trim($attrs . ' target="_blank" rel="noopener"');
+}
+
 function cb_projects($include_drafts = false)
 {
     static $projects = null;
