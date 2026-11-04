@@ -1244,8 +1244,8 @@ html.lenis, html.lenis body { height: auto; }
   gap: 0.25em;
   width: 100%;
   max-width: min(18.5rem, calc(100% - 2 * var(--pv-pad))); /* ~296px mobile */
-  margin: 0.625em auto 1.25rem;
-  padding: 0;
+  margin: 0 auto;
+  padding: 4rem 0; /* keep prior vertical spacing around the block */
   line-height: 1;
   text-align: start;
 }
