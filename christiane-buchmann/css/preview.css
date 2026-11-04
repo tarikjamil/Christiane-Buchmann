@@ -1041,8 +1041,7 @@ html.lenis, html.lenis body { height: auto; }
 .pv-ruled__line {
   display: block;
   width: 100%;
-  height: var(--pv-rule-h);
-  min-height: 1px; /* 0.5px can drop out on some mobile DPR */
+  height: var(--pv-rule-h); /* 0.5px Brutalist hairline */
   background-color: var(--pv-rule);
   border: 0;
 }
@@ -1066,10 +1065,6 @@ html.lenis, html.lenis body { height: auto; }
   white-space: nowrap;
 }
 @media (max-width: 899px) {
-  .pv-ruled__line {
-    height: 1px;
-    min-height: 1px;
-  }
   .pv-ptitle__name {
     /* Large like A24 heading-l; JS balancer splits lines to fit */
     font-size: clamp(2rem, 9.5vw, 3.5rem);
