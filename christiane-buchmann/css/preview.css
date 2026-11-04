@@ -1023,7 +1023,7 @@ html.lenis, html.lenis body { height: auto; }
 
 .pv-ptitle {
   text-align: center;
-  padding: 2.5rem 0 0.65rem; /* Marty: small pad under title, rule flush below */
+  padding: 2.5rem 0 0; /* last title rule sits flush; credits own the gap */
   background: var(--pv-cream);
 }
 .pv-ptitle .pv-kicker {
@@ -1038,7 +1038,7 @@ html.lenis, html.lenis body { height: auto; }
   width: 100%;
   max-width: none;
 }
-/* A24 Marty Supreme .divider-horizontal */
+/* A24 divider-horizontal — 0.5px black hairlines between title lines + meta */
 .pv-ruled__line {
   display: block;
   width: 100%;
@@ -1055,20 +1055,13 @@ html.lenis, html.lenis body { height: auto; }
   text-transform: uppercase;
   line-height: 1;
 }
-.pv-ptitle__lines {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  margin: 0;
-  width: 100%;
-}
 .pv-ptitle__line {
   display: block;
   width: 100%;
   box-sizing: border-box;
   text-align: center;
-  padding: 0 var(--pv-pad);
+  /* rem — tight to rules, clear of umlauts */
+  padding: 0.45rem var(--pv-pad) 0.2rem;
   /* JS balancer keeps nowrap when the line fits; overflows may wrap */
   white-space: nowrap;
 }

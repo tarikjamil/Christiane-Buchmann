@@ -25,9 +25,11 @@ include cb_theme_dir() . '/templates/preview/nav.php';
     $title_lines = cb_preview_title_lines($display_title);
     ?>
     <h1 class="pv-ptitle__name" data-pv-balance-title="<?php echo esc_attr($display_title); ?>">
-      <span class="pv-ptitle__lines" data-pv-balance-ruled>
+      <span class="pv-ruled" data-pv-balance-ruled>
+        <span class="pv-ruled__line" aria-hidden="true"></span>
         <?php foreach ($title_lines as $line) : ?>
         <span class="pv-ptitle__line"><?php cb_e($line); ?></span>
+        <span class="pv-ruled__line" aria-hidden="true"></span>
         <?php endforeach; ?>
       </span>
     </h1>
@@ -35,7 +37,6 @@ include cb_theme_dir() . '/templates/preview/nav.php';
 
   <?php if ($credits || $meta_rows) : ?>
   <section class="pv-pinfo">
-    <span class="pv-ruled__line" aria-hidden="true"></span>
     <?php if ($credits) : ?>
     <div class="pv-credits" data-pv-wrap-flow>
       <?php foreach ($credits as $c) :
