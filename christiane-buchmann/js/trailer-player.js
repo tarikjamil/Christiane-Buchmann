@@ -49,6 +49,24 @@
     return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
   }
 
+  /** Push trailer analytics into GTM dataLayer (Custom Event triggers). */
+  function trackVideo(eventName, extra) {
+    if (!state) return;
+    window.dataLayer = window.dataLayer || [];
+    var payload = {
+      event: eventName,
+      video_title: state.title,
+      video_provider: state.provider,
+      video_id: state.id
+    };
+    if (extra) {
+      Object.keys(extra).forEach(function (k) { payload[k] = extra[k]; });
+    }
+    window.dataLayer.push(payload);
+  }
+
+  var PROGRESS_MARKS = [10, 25, 50, 75, 90];
+
   var ICONS = {
     play: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg>',
     pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5h3v15H7zM14 4.5h3v15h-3z" fill="currentColor"/></svg>',
@@ -203,8 +221,26 @@
       // Keep the still on top until the open zoom finishes so the morph stays clean.
       if (state.openReady) dialog.classList.add('tp--playing');
       else state.pendingReveal = true;
+      trackVideo('video_start');
+      state.progressMarks = {};
     }
-    if (patch.ended) showControls();
+    if (typeof patch.time === 'number' && state.duration > 0 && state.shown) {
+      var pct = Math.floor((patch.time / state.duration) * 100);
+      state.progressMarks = state.progressMarks || {};
+      PROGRESS_MARKS.forEach(function (mark) {
+        if (pct >= mark && !state.progressMarks[mark]) {
+          state.progressMarks[mark] = true;
+          trackVideo('video_progress', { video_percent: mark });
+        }
+      });
+    }
+    if (patch.ended) {
+      if (!state.trackedComplete) {
+        state.trackedComplete = true;
+        trackVideo('video_complete', { video_percent: 100 });
+      }
+      showControls();
+    }
     render();
   }
 
