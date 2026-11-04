@@ -202,6 +202,27 @@ function cb_srcset($path, $sizes = '100vw')
 }
 
 /**
+ * Map a WP uploads path (or live absolute URL) to a local theme copy under images/uploads/,
+ * when tools/build_upload_derivatives.py has materialized it.
+ */
+function cb_upload_theme_path($path)
+{
+    if ($path === '') {
+        return null;
+    }
+    if (preg_match('#^https?://(?:www\.)?christianebuchmann\.com(/wp-content/uploads/.+)$#i', $path, $m)) {
+        $path = $m[1];
+    }
+    $path = '/' . ltrim($path, '/');
+    if (strpos($path, '/wp-content/uploads/') !== 0) {
+        return null;
+    }
+    $rel = 'images/uploads/' . substr($path, strlen('/wp-content/uploads/'));
+    $file = cb_theme_dir() . '/' . $rel;
+    return is_file($file) ? $rel : null;
+}
+
+/**
  * Build src (+ optional srcset/sizes/width/height) attributes for a theme or upload image.
  * $path is a theme-relative path (images/…), an uploads path, or an absolute URL.
  */
@@ -210,13 +231,14 @@ function cb_img_attrs($path, $sizes = '100vw')
     if ($path === '') {
         return '';
     }
-    if (strpos($path, 'images/') === 0) {
-        $attrs = ' src="' . esc_url(cb_asset($path)) . '"';
-        $srcset = cb_srcset($path, $sizes);
+    $theme_path = strpos($path, 'images/') === 0 ? $path : cb_upload_theme_path($path);
+    if ($theme_path) {
+        $attrs = ' src="' . esc_url(cb_asset($theme_path)) . '"';
+        $srcset = cb_srcset($theme_path, $sizes);
         if ($srcset) {
             $attrs .= $srcset;
         }
-        $file = cb_theme_dir() . '/' . $path;
+        $file = cb_theme_dir() . '/' . $theme_path;
         if (is_file($file) && ($dim = @getimagesize($file))) {
             $attrs .= ' width="' . (int) $dim[0] . '" height="' . (int) $dim[1] . '"';
         }
@@ -233,6 +255,10 @@ function cb_upload($path)
         return $path;
     }
     if (preg_match('#^https?://#', $path)) {
+        $local = cb_upload_theme_path($path);
+        if ($local) {
+            return cb_asset($local);
+        }
         // Live media should always load over HTTPS.
         if (preg_match('#^http://((?:www\.)?christianebuchmann\.com)/#i', $path)) {
             return preg_replace('#^http://#i', 'https://', $path);
@@ -243,6 +269,10 @@ function cb_upload($path)
         return cb_asset($path);
     }
     $path = '/' . ltrim($path, '/');
+    $local = cb_upload_theme_path($path);
+    if ($local) {
+        return cb_asset($local);
+    }
     // Preview server: point uploads straight at the live HTTPS origin (skip http→https hop).
     if (defined('CB_LIVE') && strpos($path, '/wp-content/uploads/') === 0) {
         return rtrim(CB_LIVE, '/') . $path;
