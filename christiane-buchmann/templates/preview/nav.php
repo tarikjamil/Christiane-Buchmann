@@ -12,7 +12,7 @@ $dark = !empty($pv_nav_dark);
 <header class="pv-nav<?php echo $dark ? ' is-dark' : ''; ?>">
   <div class="pv-nav__bar">
     <a class="pv-nav__brand" href="<?php echo esc_url(cb_preview_url('')); ?>" aria-label="<?php echo esc_attr($site['full_name'] . ' – Home'); ?>">
-      <span class="pv-nav__name">Christiane Buchmann</span>
+      <span class="pv-nav__name" data-pv-fliptext aria-hidden="true">Christiane Buchmann</span>
       <span class="pv-nav__role">DoP · BVK</span>
     </a>
     <nav class="pv-nav__links" aria-label="Preview">

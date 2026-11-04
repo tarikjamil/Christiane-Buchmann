@@ -4,8 +4,8 @@ $site = cb_site();
 <footer class="pv-footer">
   <div class="pv-footer__inner">
     <div class="pv-footer__top">
-      <a class="pv-footer__brand" href="<?php echo esc_url(cb_preview_url('')); ?>">
-        <span class="pv-footer__wordmark">Christiane<br>Buchmann</span>
+      <a class="pv-footer__brand" href="<?php echo esc_url(cb_preview_url('')); ?>" aria-label="<?php echo esc_attr($site['full_name'] . ' – Home'); ?>">
+        <span class="pv-footer__wordmark" data-pv-fliptext aria-hidden="true">Christiane<br>Buchmann</span>
         <span class="pv-footer__tag">Director of Photography · BVK</span>
       </a>
       <?php cb_preview_ticket(cb_preview_url('contact'), 'Get in touch', 'Contact', 'light'); ?>

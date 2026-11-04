@@ -800,27 +800,17 @@
         if (session.trigger) session.trigger.focus({ preventScroll: true });
       };
 
-      var source = measureSource(session.trigger);
-      if (!(source.width > 0) && session.source) source = session.source;
-      var sourceBottom = source.bottom != null ? source.bottom : source.top + source.height;
-      var onScreen = sourceBottom > 0 && source.top < window.innerHeight && source.width > 0;
-
-      if (!reduce && el.frame.animate && onScreen) {
-        var target = placeFrame(session.source);
-        var to = flipTransform(source, target);
-        el.frame.style.willChange = 'transform, opacity';
+      if (!reduce && el.frame.animate) {
+        el.frame.style.willChange = 'opacity';
         el.frame.style.transform = 'none';
-        void el.frame.offsetWidth;
+        var fadeMs = Math.min(CLOSE_MS, 320);
         var frameAnim = el.frame.animate(
-          [
-            { transform: 'translate3d(0,0,0) scale(1)', offset: 0 },
-            { transform: to, offset: 1 }
-          ],
-          { duration: CLOSE_MS, easing: EASE_IO, fill: 'forwards' }
+          { opacity: [1, 0] },
+          { duration: fadeMs, easing: EASE_IO, fill: 'forwards' }
         );
         var backdropAnim = el.backdrop.animate(
           { opacity: [1, 0] },
-          { duration: CLOSE_MS * 0.85, easing: EASE_IO, fill: 'forwards' }
+          { duration: fadeMs, easing: EASE_IO, fill: 'forwards' }
         );
         activeAnims = [frameAnim, backdropAnim];
         frameAnim.finished.then(function () {
@@ -852,6 +842,63 @@
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowLeft') setSlide(state.index - 1, true);
       if (e.key === 'ArrowRight') setSlide(state.index + 1, true);
+    });
+  })();
+
+  /* —— Brand letter reel (Filmbot button energy, softer tilt) —— */
+  (function initFlipText() {
+    if (reduce) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    function esc(ch) {
+      if (ch === '&') return '&amp;';
+      if (ch === '<') return '&lt;';
+      if (ch === '>') return '&gt;';
+      return ch;
+    }
+
+    document.querySelectorAll('[data-pv-fliptext]').forEach(function (el) {
+      if (el.getAttribute('data-pv-flip-ready')) return;
+      el.setAttribute('data-pv-flip-ready', '1');
+
+      var html = '';
+      var i = 0;
+
+      function walk(node) {
+        if (node.nodeType === 3) {
+          var text = node.textContent || '';
+          for (var c = 0; c < text.length; c++) {
+            var ch = text.charAt(c);
+            if (ch === '\n' || ch === '\r') continue;
+            if (ch === ' ') {
+              html += '<span class="pv-fliptext__space"> </span>';
+              continue;
+            }
+            var r = Math.floor(Math.random() * 70);
+            var safe = esc(ch);
+            html +=
+              '<span class="pv-fliptext__char" style="--i:' + i + ';--r:' + r + 'ms">' +
+                '<span class="pv-fliptext__reel">' +
+                  '<span>' + safe + '</span>' +
+                  '<span aria-hidden="true">' + safe + '</span>' +
+                '</span>' +
+              '</span>';
+            i += 1;
+          }
+          return;
+        }
+        if (node.nodeType === 1) {
+          if (node.tagName === 'BR') {
+            html += '<br>';
+            return;
+          }
+          Array.prototype.forEach.call(node.childNodes, walk);
+        }
+      }
+
+      Array.prototype.forEach.call(el.childNodes, walk);
+      el.classList.add('pv-fliptext');
+      el.innerHTML = html;
     });
   })();
 })();
