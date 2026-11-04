@@ -150,17 +150,33 @@ include cb_theme_dir() . '/templates/preview/nav.php';
   <?php endif; ?>
 
   <?php if (!empty($project['gallery'])) : ?>
-  <section class="pv-gallery" aria-label="Stills">
-    <?php foreach ($project['gallery'] as $i => $img) : ?>
-    <figure class="pv-gallery__item">
-      <div class="pv-gallery__frame" data-pv-parallax data-pv-parallax-travel="16">
-        <img class="pv-gallery__img" data-pv-parallax-layer src="<?php echo esc_url(cb_upload($img['src'])); ?>" alt="<?php echo esc_attr(cb_project_alt($project, 'film still ' . ($i + 1))); ?>" loading="lazy">
-      </div>
-      <?php if (!empty($img['caption'])) : ?>
-      <figcaption class="pv-gallery__caption"><?php cb_e($img['caption']); ?></figcaption>
-      <?php endif; ?>
-    </figure>
-    <?php endforeach; ?>
+  <section class="pv-gallery" aria-label="Stills" data-pv-gallery>
+    <div class="pv-gallery__inner">
+      <?php foreach ($project['gallery'] as $i => $img) :
+        $place = ($i % 5) + 1;
+        $src = cb_upload($img['src']);
+        $alt = cb_project_alt($project, 'film still ' . ($i + 1));
+      ?>
+      <figure class="pv-gallery__item is--0<?php echo (int) $place; ?>">
+        <button
+          type="button"
+          class="pv-gallery__trigger"
+          data-pv-lightbox
+          data-pv-lightbox-src="<?php echo esc_url($src); ?>"
+          data-pv-lightbox-alt="<?php echo esc_attr($alt); ?>"
+          data-pv-lightbox-index="<?php echo (int) $i; ?>"
+          aria-label="<?php echo esc_attr('View still ' . ($i + 1)); ?>"
+        >
+          <span class="pv-gallery__frame" data-pv-parallax data-pv-parallax-travel="<?php echo $place === 2 || $place === 4 ? '10' : '14'; ?>">
+            <img class="pv-gallery__img" data-pv-parallax-layer src="<?php echo esc_url($src); ?>" alt="<?php echo esc_attr($alt); ?>" loading="lazy" decoding="async">
+          </span>
+        </button>
+        <?php if (!empty($img['caption'])) : ?>
+        <figcaption class="pv-gallery__caption"><?php cb_e($img['caption']); ?></figcaption>
+        <?php endif; ?>
+      </figure>
+      <?php endforeach; ?>
+    </div>
   </section>
   <?php endif; ?>
 

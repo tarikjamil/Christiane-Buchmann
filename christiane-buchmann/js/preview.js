@@ -41,18 +41,21 @@
     else window.scrollTo({ top: y, behavior: (opts && opts.immediate) ? 'auto' : 'smooth' });
   }
 
-  /* —— Pause Lenis while theatre player is open —— */
+  /* —— Pause Lenis while overlays are open —— */
   if (lenis) {
-    var tpOpen = false;
-    function syncLenisWithTrailer() {
-      var open = document.documentElement.classList.contains('tp-open');
-      if (open === tpOpen) return;
-      tpOpen = open;
+    var overlayLocked = false;
+    function syncLenisWithOverlays() {
+      var open =
+        document.documentElement.classList.contains('tp-open') ||
+        document.documentElement.classList.contains('pv-lb-open') ||
+        document.documentElement.classList.contains('is-menu-open');
+      if (open === overlayLocked) return;
+      overlayLocked = open;
       if (open) lenis.stop();
       else lenis.start();
     }
-    var tpObs = new MutationObserver(syncLenisWithTrailer);
-    tpObs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    var overlayObs = new MutationObserver(syncLenisWithOverlays);
+    overlayObs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
   }
 
   /* —— Sticky nav: light bar after hero —— */
@@ -542,4 +545,253 @@
       }
     } catch (e) { /* ignore bad hrefs */ }
   });
+
+  /* —— Gallery lightbox (FLIP zoom, same motion language as trailer player) —— */
+  (function initGalleryLightbox() {
+    var triggers = Array.prototype.slice.call(document.querySelectorAll('[data-pv-lightbox]'));
+    if (!triggers.length) return;
+
+    var EASE_OUT = 'cubic-bezier(0.16, 1, 0.3, 1)';
+    var EASE_IO = 'cubic-bezier(0.65, 0.05, 0.36, 1)';
+    var OPEN_MS = 900;
+    var CLOSE_MS = 720;
+    var ICON_CLOSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>';
+    var ICON_PREV = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5L8 12l6.5 6.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>';
+    var ICON_NEXT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5L16 12l-6.5 6.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>';
+
+    var dialog = document.createElement('div');
+    dialog.className = 'pv-lb';
+    dialog.setAttribute('role', 'dialog');
+    dialog.setAttribute('aria-modal', 'true');
+    dialog.setAttribute('aria-label', 'Still');
+    dialog.tabIndex = -1;
+    dialog.hidden = true;
+    dialog.innerHTML =
+      '<div class="pv-lb__backdrop" data-pv-lb-close></div>' +
+      '<div class="pv-lb__frame">' +
+        '<img class="pv-lb__img" alt="">' +
+        '<button type="button" class="pv-lb__close" aria-label="Close">' + ICON_CLOSE + '</button>' +
+        '<button type="button" class="pv-lb__nav pv-lb__prev" aria-label="Previous still">' + ICON_PREV + '</button>' +
+        '<button type="button" class="pv-lb__nav pv-lb__next" aria-label="Next still">' + ICON_NEXT + '</button>' +
+      '</div>';
+    document.body.appendChild(dialog);
+
+    var el = {
+      backdrop: dialog.querySelector('.pv-lb__backdrop'),
+      frame: dialog.querySelector('.pv-lb__frame'),
+      img: dialog.querySelector('.pv-lb__img'),
+      close: dialog.querySelector('.pv-lb__close'),
+      prev: dialog.querySelector('.pv-lb__prev'),
+      next: dialog.querySelector('.pv-lb__next')
+    };
+    var state = null;
+
+    function rectOf(node) {
+      return node.getBoundingClientRect();
+    }
+
+    function flipTransform(source, target) {
+      var sx = source.width / target.width;
+      var sy = source.height / target.height;
+      return (
+        'translate(' + (source.left - target.left) + 'px,' + (source.top - target.top) + 'px) ' +
+        'scale(' + sx + ',' + sy + ')'
+      );
+    }
+
+    function naturalSize(img) {
+      var nw = img.naturalWidth || 0;
+      var nh = img.naturalHeight || 0;
+      if (!(nw > 0 && nh > 0)) return { w: 16, h: 9 };
+      return { w: nw, h: nh };
+    }
+
+    function frameRectFor(img) {
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var pad = vw < 768 ? 16 : 48;
+      var size = naturalSize(img);
+      var maxW = vw - pad * 2;
+      var maxH = vh - pad * 2;
+      var w = maxW;
+      var h = (w * size.h) / size.w;
+      if (h > maxH) {
+        h = maxH;
+        w = (h * size.w) / size.h;
+      }
+      return { left: (vw - w) / 2, top: (vh - h) / 2, width: w, height: h };
+    }
+
+    function placeFrame() {
+      var r = frameRectFor(el.img);
+      el.frame.style.left = r.left + 'px';
+      el.frame.style.top = r.top + 'px';
+      el.frame.style.width = r.width + 'px';
+      el.frame.style.height = r.height + 'px';
+      return r;
+    }
+
+    function syncNav() {
+      var many = triggers.length > 1;
+      el.prev.hidden = !many;
+      el.next.hidden = !many;
+    }
+
+    function setSlide(index, animateSwap) {
+      if (!state) return;
+      var i = (index + triggers.length) % triggers.length;
+      var trigger = triggers[i];
+      var src = trigger.getAttribute('data-pv-lightbox-src') || '';
+      var alt = trigger.getAttribute('data-pv-lightbox-alt') || '';
+      if (state.trigger) {
+        var prevItem = state.trigger.closest('.pv-gallery__item');
+        if (prevItem) prevItem.classList.remove('is-lightbox-open');
+      }
+      state.index = i;
+      state.trigger = trigger;
+      var nextItem = trigger.closest('.pv-gallery__item');
+      if (nextItem) nextItem.classList.add('is-lightbox-open');
+      state.source = rectOf(trigger.querySelector('.pv-gallery__frame') || trigger);
+      el.img.alt = alt;
+      dialog.setAttribute('aria-label', alt || 'Still');
+      if (!animateSwap) {
+        el.img.src = src;
+        return;
+      }
+      el.img.style.opacity = '0';
+      el.img.onload = function () {
+        placeFrame();
+        el.img.style.opacity = '';
+        el.img.onload = null;
+      };
+      el.img.src = src;
+      if (el.img.complete) {
+        placeFrame();
+        el.img.style.opacity = '';
+        el.img.onload = null;
+      }
+    }
+
+    function open(trigger) {
+      if (state) return;
+      var index = triggers.indexOf(trigger);
+      if (index < 0) index = 0;
+      var frame = trigger.querySelector('.pv-gallery__frame') || trigger;
+      var source = rectOf(frame);
+      state = {
+        trigger: trigger,
+        index: index,
+        source: { left: source.left, top: source.top, width: source.width, height: source.height, bottom: source.bottom },
+        closing: false
+      };
+      setSlide(index, false);
+      syncNav();
+      document.documentElement.classList.add('pv-lb-open');
+      dialog.hidden = false;
+      dialog.focus({ preventScroll: true });
+
+      var runZoom = function () {
+        var target = placeFrame();
+        el.frame.style.willChange = 'transform';
+        el.backdrop.style.opacity = '0';
+        if (!reduce && el.frame.animate && source.width > 0) {
+          var from = flipTransform(source, target);
+          el.frame.style.transform = from;
+          el.frame.style.borderRadius = '0.35rem';
+          var frameAnim = el.frame.animate(
+            { transform: [from, 'none'], borderRadius: ['0.35rem', '0.35rem'] },
+            { duration: OPEN_MS, easing: EASE_OUT, fill: 'forwards' }
+          );
+          var backdropAnim = el.backdrop.animate(
+            { opacity: [0, 1] },
+            { duration: OPEN_MS * 0.75, easing: 'ease-out', fill: 'forwards' }
+          );
+          frameAnim.finished.then(function () {
+            el.frame.style.transform = '';
+            el.frame.style.willChange = '';
+            el.backdrop.style.opacity = '';
+            frameAnim.cancel();
+            backdropAnim.cancel();
+          }).catch(function () {});
+        } else {
+          el.backdrop.style.opacity = '';
+        }
+      };
+
+      if (el.img.complete && el.img.naturalWidth) {
+        requestAnimationFrame(function () { requestAnimationFrame(runZoom); });
+      } else {
+        el.img.onload = function () {
+          el.img.onload = null;
+          requestAnimationFrame(function () { requestAnimationFrame(runZoom); });
+        };
+      }
+    }
+
+    function close() {
+      if (!state || state.closing) return;
+      state.closing = true;
+      var session = state;
+      var item = session.trigger && session.trigger.closest('.pv-gallery__item');
+
+      var finish = function () {
+        state = null;
+        el.frame.style.transform = '';
+        el.frame.style.willChange = '';
+        el.backdrop.style.opacity = '';
+        dialog.hidden = true;
+        document.documentElement.classList.remove('pv-lb-open');
+        if (item) item.classList.remove('is-lightbox-open');
+        if (session.trigger) session.trigger.focus({ preventScroll: true });
+      };
+
+      var source = rectOf(session.trigger.querySelector('.pv-gallery__frame') || session.trigger);
+      if (!(source.width > 0) && session.source) source = session.source;
+      var sourceBottom = source.bottom != null ? source.bottom : source.top + source.height;
+      var onScreen = sourceBottom > 0 && source.top < window.innerHeight && source.width > 0;
+
+      if (!reduce && el.frame.animate && onScreen) {
+        var target = placeFrame();
+        var to = flipTransform(source, target);
+        el.frame.style.willChange = 'transform';
+        var frameAnim = el.frame.animate(
+          { transform: ['none', to], borderRadius: ['0.35rem', '0.35rem'] },
+          { duration: CLOSE_MS, easing: EASE_IO, fill: 'forwards' }
+        );
+        var backdropAnim = el.backdrop.animate(
+          { opacity: [1, 0] },
+          { duration: CLOSE_MS * 0.85, easing: 'ease-in', fill: 'forwards' }
+        );
+        frameAnim.finished.then(function () {
+          frameAnim.cancel();
+          backdropAnim.cancel();
+          finish();
+        }).catch(finish);
+      } else {
+        finish();
+      }
+    }
+
+    triggers.forEach(function (btn) {
+      btn.addEventListener('click', function () { open(btn); });
+    });
+    el.close.addEventListener('click', close);
+    dialog.querySelectorAll('[data-pv-lb-close]').forEach(function (node) {
+      node.addEventListener('click', close);
+    });
+    el.prev.addEventListener('click', function () {
+      if (!state) return;
+      setSlide(state.index - 1, true);
+    });
+    el.next.addEventListener('click', function () {
+      if (!state) return;
+      setSlide(state.index + 1, true);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!state) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') setSlide(state.index - 1, true);
+      if (e.key === 'ArrowRight') setSlide(state.index + 1, true);
+    });
+  })();
 })();
