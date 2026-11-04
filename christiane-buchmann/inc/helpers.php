@@ -134,29 +134,56 @@ function cb_project_url($slug)
     return cb_url('all-projects/' . $slug . '/');
 }
 
-function cb_asset($path)
+/** Prefer a sibling .avif when the client accepts it (JPEG/PNG kept as fallback). */
+function cb_avif_path($path)
 {
+    if (!preg_match('/\.(jpe?g|png|webp)$/i', $path)) {
+        return $path;
+    }
+    $accept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
+    if (strpos($accept, 'image/avif') === false) {
+        return $path;
+    }
+    $avif = preg_replace('/\.(jpe?g|png|webp)$/i', '.avif', $path);
+    if ($avif === $path) {
+        return $path;
+    }
+    $file = cb_theme_dir() . '/' . ltrim($avif, '/');
+    return is_file($file) ? $avif : $path;
+}
+
+function cb_asset($path, $prefer_avif = true)
+{
+    if ($prefer_avif) {
+        $path = cb_avif_path($path);
+    }
     $file = cb_theme_dir() . '/' . $path;
     $version = file_exists($file) ? filemtime($file) : '';
     return get_template_directory_uri() . '/' . $path . ($version ? '?v=' . $version : '');
 }
 
-/** srcset for a theme image, using the Webflow "-p-{width}.jpeg" variants next to it. */
+/** srcset for a theme image, using the Webflow "-p-{width}" variants next to it. */
 function cb_srcset($path)
 {
     $file = cb_theme_dir() . '/' . $path;
     $base = preg_replace('/\.[a-z]+$/i', '', $path);
+    $use_avif = cb_avif_path($path) !== $path;
     $sources = array();
-    foreach (glob(cb_theme_dir() . '/' . $base . '-p-*.jpeg') as $variant) {
-        if (preg_match('/-p-(\d+)\.jpeg$/', $variant, $m)) {
-            $sources[(int) $m[1]] = cb_asset($base . '-p-' . $m[1] . '.jpeg') . ' ' . $m[1] . 'w';
+    $pattern = $use_avif
+        ? cb_theme_dir() . '/' . $base . '-p-*.avif'
+        : cb_theme_dir() . '/' . $base . '-p-*.jpeg';
+    foreach (glob($pattern) as $variant) {
+        if (preg_match('/-p-(\d+)\.(?:jpeg|avif)$/', $variant, $m)) {
+            $ext = $use_avif ? 'avif' : 'jpeg';
+            $sources[(int) $m[1]] = cb_asset($base . '-p-' . $m[1] . '.' . $ext, false) . ' ' . $m[1] . 'w';
         }
     }
     if (!$sources || !file_exists($file)) {
         return '';
     }
     $size = getimagesize($file);
-    $sources[$size[0]] = cb_asset($path) . ' ' . $size[0] . 'w';
+    $main = $use_avif ? cb_avif_path($path) : $path;
+    $sources[$size[0]] = cb_asset($main, false) . ' ' . $size[0] . 'w';
     ksort($sources);
     return ' srcset="' . esc_attr(implode(', ', $sources)) . '" sizes="100vw"';
 }

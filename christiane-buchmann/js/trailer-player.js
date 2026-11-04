@@ -11,6 +11,9 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var EASE_OUT = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  var EASE_IO = 'cubic-bezier(0.65, 0.05, 0.36, 1)';
+  var OPEN_MS = 900;
+  var CLOSE_MS = 720;
   var IDLE_MS = 2500;
   var LOAD_TIMEOUT_MS = 15000;
   var scripts = {};
@@ -197,7 +200,9 @@
       state.shown = true;
       clearTimeout(state.loadTimer);
       setStatus(null);
-      dialog.classList.add('tp--playing');
+      // Keep the still on top until the open zoom finishes so the morph stays clean.
+      if (state.openReady) dialog.classList.add('tp--playing');
+      else state.pendingReveal = true;
     }
     if (patch.ended) showControls();
     render();
@@ -241,17 +246,34 @@
     return r;
   }
 
-  function flipFrom(source, target) {
-    var s = source.getBoundingClientRect();
-    return [
-      'translate(' + (s.left - target.left) + 'px,' + (s.top - target.top) + 'px) scale(' + s.width / target.width + ',' + s.height / target.height + ')',
-      'none'
-    ];
+  function rectOf(node) {
+    return node.getBoundingClientRect();
+  }
+
+  /** FLIP: map theatre frame onto the on-page trailer card. */
+  function flipTransform(source, target) {
+    var sx = source.width / target.width;
+    var sy = source.height / target.height;
+    return (
+      'translate(' + (source.left - target.left) + 'px,' + (source.top - target.top) + 'px) ' +
+      'scale(' + sx + ',' + sy + ')'
+    );
+  }
+
+  function finishOpenReveal() {
+    if (!state) return;
+    state.openReady = true;
+    if (state.pendingReveal) {
+      state.pendingReveal = false;
+      dialog.classList.add('tp--playing');
+    }
   }
 
   function open(trigger) {
     if (state) return;
     var poster = trigger.querySelector('.trailer_poster');
+    // Measure the card itself (not the scaled poster) before anything moves.
+    var source = rectOf(trigger);
     state = {
       trigger: trigger,
       provider: trigger.getAttribute('data-trailer'),
@@ -261,7 +283,10 @@
       time: 0,
       duration: parseFloat(trigger.getAttribute('data-trailer-duration')) || 0,
       playing: true,
-      muted: false
+      muted: false,
+      source: { left: source.left, top: source.top, width: source.width, height: source.height },
+      openReady: reduceMotion,
+      pendingReveal: false
     };
     dialog.setAttribute('aria-label', state.title);
     el.still.style.backgroundImage = poster ? 'url("' + (poster.currentSrc || poster.src) + '")' : 'none';
@@ -270,16 +295,45 @@
     dialog.classList.remove('tp--playing', 'tp--idle', 'tp--paused');
     document.documentElement.classList.add('tp-open');
     dialog.hidden = false;
-    var target = placeFrame();
     trigger.classList.add('trailer--open');
     render();
 
-    if (!reduceMotion && poster && el.frame.animate) {
-      el.frame.animate({ transform: flipFrom(poster, target) }, { duration: 750, easing: EASE_OUT });
-      el.backdrop.animate({ opacity: [0, 1] }, { duration: 450, easing: 'ease-out' });
-    } else if (dialog.animate) {
-      dialog.animate({ opacity: [0, 1] }, { duration: 200 });
-    }
+    var runZoom = function () {
+      var target = placeFrame();
+      el.frame.style.willChange = 'transform';
+      el.backdrop.style.opacity = '0';
+      if (!reduceMotion && el.frame.animate && source.width > 0) {
+        var from = flipTransform(source, target);
+        el.frame.style.transform = from;
+        el.frame.style.borderRadius = '0.45rem';
+        var frameAnim = el.frame.animate(
+          { transform: [from, 'none'], borderRadius: ['0.45rem', '0px'] },
+          { duration: OPEN_MS, easing: EASE_OUT, fill: 'forwards' }
+        );
+        var backdropAnim = el.backdrop.animate(
+          { opacity: [0, 1] },
+          { duration: OPEN_MS * 0.75, easing: 'ease-out', fill: 'forwards' }
+        );
+        frameAnim.finished.then(function () {
+          el.frame.style.transform = '';
+          el.frame.style.borderRadius = '';
+          el.frame.style.willChange = '';
+          el.backdrop.style.opacity = '';
+          frameAnim.cancel();
+          backdropAnim.cancel();
+          finishOpenReveal();
+        }).catch(finishOpenReveal);
+      } else if (dialog.animate) {
+        el.backdrop.style.opacity = '';
+        dialog.animate({ opacity: [0, 1] }, { duration: 220 }).finished.then(finishOpenReveal).catch(finishOpenReveal);
+      } else {
+        el.backdrop.style.opacity = '';
+        finishOpenReveal();
+      }
+    };
+
+    // Wait one frame so display:none → visible layout is committed before FLIP.
+    requestAnimationFrame(function () { requestAnimationFrame(runZoom); });
     dialog.focus({ preventScroll: true });
 
     state.loadTimer = setTimeout(showError, LOAD_TIMEOUT_MS);
@@ -292,33 +346,54 @@
   }
 
   function close() {
-    if (!state) return;
+    if (!state || state.closing) return;
+    state.closing = true;
     var session = state;
-    state = null;
     clearTimeout(session.loadTimer);
     clearTimeout(session.idleTimer);
     if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
+
+    // Swap back to the still so the zoom-out reads as the thumbnail, not a frozen iframe.
+    dialog.classList.remove('tp--playing', 'tp--idle', 'tp--paused');
+    if (session.api) session.api.pause();
+
     var finish = function () {
+      state = null;
       if (session.api) session.api.destroy();
       el.media.innerHTML = '';
+      el.frame.style.transform = '';
+      el.frame.style.borderRadius = '';
+      el.frame.style.willChange = '';
+      el.backdrop.style.opacity = '';
       dialog.hidden = true;
       document.documentElement.classList.remove('tp-open');
       session.trigger.classList.remove('trailer--open');
       session.trigger.focus({ preventScroll: true });
     };
-    var poster = session.trigger.querySelector('.trailer_poster');
-    var r = poster && poster.getBoundingClientRect();
-    var onScreen = r && r.bottom > 0 && r.top < window.innerHeight;
+
+    // visibility:hidden still reports geometry; fall back to the open-time rect if needed.
+    var source = rectOf(session.trigger);
+    if (!(source.width > 0) && session.source) source = session.source;
+    var sourceBottom = source.bottom != null ? source.bottom : source.top + source.height;
+    var onScreen = sourceBottom > 0 && source.top < window.innerHeight && source.width > 0;
+
     if (!reduceMotion && el.frame.animate && onScreen) {
-      if (session.api) session.api.pause();
-      var target = el.frame.getBoundingClientRect();
-      var frameAnim = el.frame.animate({ transform: flipFrom(poster, target).reverse() }, { duration: 500, easing: EASE_OUT, fill: 'forwards' });
-      var backdropAnim = el.backdrop.animate({ opacity: [1, 0] }, { duration: 450, easing: 'ease-out', fill: 'forwards' });
+      var target = placeFrame();
+      var to = flipTransform(source, target);
+      el.frame.style.willChange = 'transform';
+      var frameAnim = el.frame.animate(
+        { transform: ['none', to], borderRadius: ['0px', '0.45rem'] },
+        { duration: CLOSE_MS, easing: EASE_IO, fill: 'forwards' }
+      );
+      var backdropAnim = el.backdrop.animate(
+        { opacity: [1, 0] },
+        { duration: CLOSE_MS * 0.85, easing: 'ease-in', fill: 'forwards' }
+      );
       frameAnim.finished.then(function () {
-        finish();
         frameAnim.cancel();
         backdropAnim.cancel();
-      });
+        finish();
+      }).catch(finish);
     } else {
       finish();
     }

@@ -53,8 +53,8 @@ include cb_theme_dir() . '/templates/preview/nav.php';
     <?php foreach ($projects as $i => $project) :
       $img = $project['image'] ? cb_upload($project['image']) : cb_asset('images/corious_retouched.jpg');
       $cat = $site['categories'][$project['category']]['label'];
-      $num = str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
-      $search = strtolower(cb_project_name($project) . ' ' . $project['title'] . ' ' . $project['subtitle'] . ' ' . $cat);
+      $year = cb_project_year($project);
+      $search = strtolower(cb_project_name($project) . ' ' . $project['title'] . ' ' . $project['subtitle'] . ' ' . $cat . ' ' . $year);
     ?>
     <a class="pv-showcase__card pv-wcard" href="<?php echo esc_url(cb_preview_project_url($project['slug'])); ?>" data-category="<?php echo esc_attr($project['category']); ?>" data-search="<?php echo esc_attr($search); ?>">
       <div class="pv-showcase__visual">
@@ -62,7 +62,7 @@ include cb_theme_dir() . '/templates/preview/nav.php';
       </div>
       <div class="pv-showcase__content">
         <div class="pv-showcase__top">
-          <span class="pv-showcase__num">[<?php echo esc_html($num); ?>]</span>
+          <?php if ($year) : ?><span class="pv-showcase__num">[<?php echo esc_html($year); ?>]</span><?php endif; ?>
           <span class="pv-showcase__cat"><?php cb_e($cat); ?></span>
         </div>
         <h3 class="pv-showcase__name"><?php cb_e(cb_project_name($project)); ?></h3>

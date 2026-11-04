@@ -37,10 +37,10 @@ $site = cb_site();
       </div>
       <div class="pv-footer__col">
         <h2 class="pv-footer__heading">Studio</h2>
-        <a href="mailto:<?php echo esc_attr($site['email']); ?>"><?php cb_e($site['email']); ?></a>
-        <a href="tel:<?php echo esc_attr($site['phone']); ?>"><?php cb_e($site['phone_label']); ?></a>
+        <?php cb_preview_hover_link('mailto:' . $site['email'], $site['email']); ?>
+        <?php cb_preview_hover_link('tel:' . $site['phone'], $site['phone_label']); ?>
         <span><?php cb_e(implode(' / ', $site['locations'])); ?></span>
-        <a href="<?php echo esc_url($site['agency']['url']); ?>" target="_blank" rel="noopener"><?php cb_e($site['agency']['name']); ?></a>
+        <?php cb_preview_hover_link($site['agency']['url'], $site['agency']['name']); ?>
       </div>
     </div>
   </div>

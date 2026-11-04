@@ -9,7 +9,7 @@ $site = cb_site();
   <meta name="robots" content="noindex, nofollow">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta name="theme-color" content="#0a0a0a">
-  <link rel="icon" href="<?php echo esc_url(cb_asset('images/favicon.jpg')); ?>">
+  <link rel="icon" href="<?php echo esc_url(cb_asset('images/favicon.jpg', false)); ?>">
   <link rel="stylesheet" href="<?php echo esc_url(cb_asset('css/preview.css')); ?>">
 <?php
 $pv_has_trailer = $page['template'] === 'project'
@@ -24,5 +24,8 @@ if ($pv_has_trailer) :
 <?php include cb_theme_dir() . '/templates/preview/pages/' . $page['template'] . '.php'; ?>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
   <script src="<?php echo esc_url(cb_asset('js/preview.js')); ?>" defer></script>
+<?php if ($pv_has_trailer && !empty($page['project']['videos'])) : ?>
+  <script src="<?php echo esc_url(cb_asset('js/trailer-player.js')); ?>" defer></script>
+<?php endif; ?>
 </body>
 </html>

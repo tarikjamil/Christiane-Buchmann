@@ -243,14 +243,17 @@ function cb_preview_filter($key, $label, $active = false, $pos = 'solo')
     <?php
 }
 
-/** Work page search — full solo ticket chip. */
+/** Work page search — underline field with loop icon. */
 function cb_preview_search($placeholder = 'Search titles…')
 {
     ?>
-<label class="pv-chip pv-search pv-chip--solo">
-  <?php cb_preview_chip_shell('solo'); ?>
+<label class="pv-search">
   <span class="pv-search__label">Search</span>
-  <input class="pv-chip__text pv-search__input" type="search" placeholder="<?php echo esc_attr($placeholder); ?>" data-pv-search autocomplete="off">
+  <input class="pv-search__input" type="search" placeholder="<?php echo esc_attr($placeholder); ?>" data-pv-search autocomplete="off">
+  <svg class="pv-search__icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+    <circle cx="6.75" cy="6.75" r="4.25" fill="none" stroke="currentColor" stroke-width="1"/>
+    <path d="M10.1 10.1 14 14" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+  </svg>
 </label>
     <?php
 }
@@ -591,7 +594,7 @@ function cb_preview_render($template, $vars = array())
         'robots'      => 'noindex, nofollow',
         'canonical'   => cb_preview_url($template === 'home' ? '' : ($template === 'project' ? 'all-projects/' . $vars['project']['slug'] : $template)),
         'og_type'     => 'website',
-        'image'       => cb_asset('images/webclip.jpg'),
+        'image'       => cb_asset('images/webclip.jpg', false),
         'schema'      => array('@context' => 'https://schema.org', '@type' => 'WebPage', 'name' => $titles[$template]),
         'is_preview'  => true,
     ), $vars);

@@ -16,7 +16,7 @@ if (strpos($path, '/wp-content/themes/christiane-buchmann/') === 0) {
         http_response_code(404);
         return true;
     }
-    $types = array('css' => 'text/css', 'js' => 'application/javascript', 'json' => 'application/json', 'svg' => 'image/svg+xml', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'woff' => 'font/woff', 'woff2' => 'font/woff2');
+    $types = array('css' => 'text/css', 'js' => 'application/javascript', 'json' => 'application/json', 'svg' => 'image/svg+xml', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp', 'avif' => 'image/avif', 'woff' => 'font/woff', 'woff2' => 'font/woff2');
     $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
     header('Content-Type: ' . (isset($types[$ext]) ? $types[$ext] : 'application/octet-stream'));
     readfile($file);

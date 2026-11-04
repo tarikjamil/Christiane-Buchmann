@@ -10,7 +10,7 @@ function cb_page_meta($page)
         'title'       => $site['full_name'] . ' – Director of Photography, Hamburg',
         'description' => $site['description'],
         'canonical'   => cb_url('/'),
-        'image'       => cb_asset('images/about-me_retouched.jpg'),
+        'image'       => cb_asset('images/about-me_retouched.jpg', false),
         'robots'      => 'index, follow, max-image-preview:large',
         'og_type'     => 'website',
     );
@@ -20,14 +20,14 @@ function cb_page_meta($page)
             $meta['title'] = 'About Christiane Buchmann – Director of Photography';
             $meta['description'] = 'Biography and awards of Christiane Buchmann, BVK: German cinematographer trained at Hamburg Media School, EICTV Cuba and Berlinale Talents.';
             $meta['canonical'] = cb_url('about/');
-            $meta['image'] = cb_asset('images/about.jpg');
+            $meta['image'] = cb_asset('images/about.jpg', false);
             $meta['og_type'] = 'profile';
             break;
         case 'portfolio':
             $meta['title'] = 'Filmography & Work – Christiane Buchmann, DoP';
             $meta['description'] = 'Work by cinematographer Christiane Buchmann: TV series and films (Tatort, SOKO Linz, Ein Fall für Zwei), music videos, commercials, documentaries.';
             $meta['canonical'] = cb_url('portfolio/');
-            $meta['image'] = cb_asset('images/Feature-bearbeitet.jpg');
+            $meta['image'] = cb_asset('images/Feature-bearbeitet.jpg', false);
             break;
         case 'contact':
             $meta['title'] = 'Contact & Agency – Christiane Buchmann, DoP';
@@ -115,7 +115,7 @@ function cb_person_schema()
         'jobTitle'        => $site['job_title'],
         'description'     => $site['description'],
         'url'             => cb_url('/'),
-        'image'           => cb_asset('images/bio.jpg'),
+        'image'           => cb_asset('images/bio.jpg', false),
         'email'           => 'mailto:' . $site['email'],
         'telephone'       => $site['phone'],
         'nationality'     => array('@type' => 'Country', 'name' => 'Germany'),

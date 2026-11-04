@@ -101,11 +101,28 @@ include cb_theme_dir() . '/templates/preview/nav.php';
       <div class="pv-ptrailer__clip">
         <?php if (!empty($project['videos'])) : ?>
           <?php foreach ($project['videos'] as $video) : ?>
-        <a class="trailer pv-trailer" href="<?php echo esc_url(cb_video_watch_url($video)); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr(cb_video_label($project) . ': ' . $name); ?>">
+          <?php
+            $duration = cb_video_duration($video);
+            $is_embed = in_array($video['provider'], array('vimeo', 'youtube'), true);
+          ?>
+        <a class="trailer pv-trailer" href="<?php echo esc_url(cb_video_watch_url($video)); ?>"<?php
+          if ($is_embed) {
+              echo ' data-trailer="' . esc_attr($video['provider']) . '"';
+              echo ' data-trailer-id="' . esc_attr($video['id']) . '"';
+              echo ' data-trailer-title="' . esc_attr($name) . '"';
+              echo ' data-trailer-duration="' . (int) cb_video_seconds($video) . '"';
+          } else {
+              echo ' target="_blank" rel="noopener"';
+          }
+        ?> aria-label="<?php echo esc_attr(cb_video_label($project) . ': ' . $name . ($duration ? ', ' . $duration : '')); ?>">
           <img class="trailer_poster" src="<?php echo esc_url(cb_video_thumb($video, $hero)); ?>" alt="" width="1280" height="720">
           <span class="trailer_shade" aria-hidden="true"></span>
           <span class="pv-trailer__cta" aria-hidden="true">
-            <span class="pv-trailer__play">▶</span>
+            <span class="pv-trailer__play">
+              <svg viewBox="0 0 72 72" focusable="false">
+                <path class="pv-trailer__play-glyph" d="M28 22v28l24-14z"/>
+              </svg>
+            </span>
             <span class="pv-trailer__label"><?php cb_e(strtoupper(cb_video_label($project))); ?></span>
           </span>
         </a>
@@ -114,9 +131,8 @@ include cb_theme_dir() . '/templates/preview/nav.php';
         <a class="trailer pv-trailer pv-trailer--still" href="<?php echo esc_url($project['trailer_link']['url']); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr($project['trailer_link']['label'] . ': ' . $name); ?>">
           <img class="trailer_poster" src="<?php echo esc_url($hero); ?>" alt="" width="1280" height="720">
           <span class="trailer_shade" aria-hidden="true"></span>
-          <span class="pv-trailer__cta" aria-hidden="true">
-            <span class="pv-trailer__play">▶</span>
-            <span class="pv-trailer__label"><?php cb_e(strtoupper($project['trailer_link']['label'])); ?></span>
+          <span class="pv-trailer__cta pv-trailer__cta--external" aria-hidden="true">
+            <span class="pv-trailer__label-text"><?php cb_e(strtoupper($project['trailer_link']['label'])); ?></span>
           </span>
         </a>
         <?php endif; ?>

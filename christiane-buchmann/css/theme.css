@@ -160,6 +160,7 @@ html.tp-open {
   overflow: hidden;
   background-color: #000;
   transform-origin: 0 0;
+  backface-visibility: hidden;
 }
 
 .tp_frame:fullscreen {
@@ -182,12 +183,12 @@ html.tp-open {
 .tp_still {
   background-position: center;
   background-size: cover;
-  transition: opacity 600ms ease;
+  transition: opacity 480ms ease;
 }
 
 .tp_media {
   opacity: 0;
-  transition: opacity 600ms ease;
+  transition: opacity 480ms ease;
 }
 
 .tp--playing .tp_media {
@@ -196,6 +197,7 @@ html.tp-open {
 
 .tp--playing .tp_still {
   opacity: 0;
+  transition-delay: 80ms;
 }
 
 .tp_hit {

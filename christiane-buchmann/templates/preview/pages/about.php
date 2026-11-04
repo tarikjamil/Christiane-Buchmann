@@ -37,7 +37,13 @@ include cb_theme_dir() . '/templates/preview/nav.php';
     </div>
     <div class="pv-ahero__content">
       <p class="pv-kicker">About</p>
-      <h1><?php cb_e($site['full_name']); ?></h1>
+      <h1 class="pv-ahero__title">
+        <span class="pv-ruled">
+          <span class="pv-ruled__line" aria-hidden="true"></span>
+          <span class="pv-ahero__title-text"><?php cb_e($site['full_name']); ?></span>
+          <span class="pv-ruled__line" aria-hidden="true"></span>
+        </span>
+      </h1>
       <p class="pv-ahero__role"><?php cb_e($site['job_title']); ?></p>
     </div>
   </section>

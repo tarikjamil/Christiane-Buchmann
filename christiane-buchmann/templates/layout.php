@@ -28,8 +28,8 @@ $wf_page = isset($wf_pages[$page['template']]) ? $wf_pages[$page['template']] : 
   <script src="https://use.typekit.net/qtk2vpz.js" type="text/javascript"></script>
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
-  <link href="<?php echo esc_url(cb_asset('images/favicon.jpg')); ?>" rel="shortcut icon" type="image/x-icon">
-  <link href="<?php echo esc_url(cb_asset('images/webclip.jpg')); ?>" rel="apple-touch-icon">
+  <link href="<?php echo esc_url(cb_asset('images/favicon.jpg', false)); ?>" rel="shortcut icon" type="image/x-icon">
+  <link href="<?php echo esc_url(cb_asset('images/webclip.jpg', false)); ?>" rel="apple-touch-icon">
   <script type="application/ld+json"><?php echo wp_json_encode($page['schema'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?></script>
 </head>
 <body class="page-<?php echo esc_attr($page['template']); ?>">
