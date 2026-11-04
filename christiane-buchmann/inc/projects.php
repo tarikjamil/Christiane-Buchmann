@@ -278,10 +278,6 @@ return array(
                 'caption' => '',
             ),
             array(
-                'src' => '/wp-content/uploads/2025/09/Geheime-Wahrheiten-PK-02-1-1024x574.png',
-                'caption' => '',
-            ),
-            array(
                 'src' => '/wp-content/uploads/2025/09/PK-Vertrauensprobe-01-1024x571.png',
                 'caption' => '',
             ),

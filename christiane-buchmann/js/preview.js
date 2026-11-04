@@ -601,13 +601,23 @@
       return 'translate3d(' + dx + 'px,' + dy + 'px,0) scale(' + s + ')';
     }
 
-    function frameRectFromSource(source) {
+    /* Size the open frame to the still’s natural aspect (fit in viewport). */
+    function frameRectFromNatural(fallback) {
       var vw = window.innerWidth;
       var vh = window.innerHeight;
       var pad = vw < 768 ? 12 : 40;
       var maxW = vw - pad * 2;
       var maxH = vh - pad * 2;
-      var ratio = source.width > 0 && source.height > 0 ? source.width / source.height : 16 / 9;
+      var nw = el.img.naturalWidth || 0;
+      var nh = el.img.naturalHeight || 0;
+      var ratio;
+      if (nw > 0 && nh > 0) {
+        ratio = nw / nh;
+      } else if (fallback && fallback.width > 0 && fallback.height > 0) {
+        ratio = fallback.width / fallback.height;
+      } else {
+        ratio = 16 / 9;
+      }
       var w = maxW;
       var h = w / ratio;
       if (h > maxH) {
@@ -617,8 +627,8 @@
       return { left: (vw - w) / 2, top: (vh - h) / 2, width: w, height: h };
     }
 
-    function placeFrame(source) {
-      var r = frameRectFromSource(source || (state && state.source) || { width: 16, height: 9 });
+    function placeFrame(fallback) {
+      var r = frameRectFromNatural(fallback || (state && state.source) || null);
       el.frame.style.left = r.left + 'px';
       el.frame.style.top = r.top + 'px';
       el.frame.style.width = r.width + 'px';
