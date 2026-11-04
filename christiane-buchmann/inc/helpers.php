@@ -9,6 +9,67 @@ function cb_site($key = null)
     return $key === null ? $site : $site[$key];
 }
 
+/**
+ * Print GA4 / GTM snippets for the live site head (+ optional body noscript).
+ * Prefer GTM when gtm_id is set; otherwise load GA4 via gtag.js.
+ * Skips draft / noindex pages. Not used on /preview/.
+ *
+ * @param string $where 'head' | 'body'
+ */
+function cb_analytics($where = 'head')
+{
+    global $page;
+    if (!empty($page['is_preview'])) {
+        return;
+    }
+    if (!empty($page['robots']) && stripos($page['robots'], 'noindex') !== false) {
+        return;
+    }
+
+    $gtm = trim((string) cb_site('gtm_id'));
+    $ga4 = trim((string) cb_site('ga4_id'));
+
+    // IDs are site-config constants; still escape for attribute / JS string safety
+    $esc_attr = function_exists('esc_attr') ? 'esc_attr' : function ($s) {
+        return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8');
+    };
+    $esc_js = function_exists('esc_js') ? 'esc_js' : function ($s) {
+        return str_replace(array('\\', "'", '"', "\n", "\r"), array('\\\\', "\\'", '\\"', '\\n', ''), (string) $s);
+    };
+
+    if ($gtm !== '') {
+        if ($where === 'head') {
+            $id = $esc_js($gtm);
+            echo "<!-- Google Tag Manager -->\n";
+            echo "<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n";
+            echo "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n";
+            echo "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n";
+            echo "'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n";
+            echo "})(window,document,'script','dataLayer','{$id}');</script>\n";
+            echo "<!-- End Google Tag Manager -->\n";
+        } elseif ($where === 'body') {
+            $id = $esc_attr($gtm);
+            echo "<!-- Google Tag Manager (noscript) -->\n";
+            echo '<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=' . $id . '" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>' . "\n";
+            echo "<!-- End Google Tag Manager (noscript) -->\n";
+        }
+        return;
+    }
+
+    if ($ga4 === '' || $where !== 'head') {
+        return;
+    }
+    $id = $esc_js($ga4);
+    echo "<!-- Google tag (gtag.js) -->\n";
+    echo '<script async src="https://www.googletagmanager.com/gtag/js?id=' . $esc_attr($ga4) . '"></script>' . "\n";
+    echo "<script>\n";
+    echo "  window.dataLayer = window.dataLayer || [];\n";
+    echo "  function gtag(){dataLayer.push(arguments);}\n";
+    echo "  gtag('js', new Date());\n";
+    echo "  gtag('config', '{$id}');\n";
+    echo "</script>\n";
+}
+
 /** True when $url points at a different host than this site. */
 function cb_is_external_url($url)
 {

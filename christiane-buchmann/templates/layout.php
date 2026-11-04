@@ -21,6 +21,7 @@ $wf_page = isset($wf_pages[$page['template']]) ? $wf_pages[$page['template']] : 
   <meta property="og:url" content="<?php echo esc_url($page['canonical']); ?>">
   <meta property="og:image" content="<?php echo esc_url($page['image']); ?>">
   <meta name="twitter:card" content="summary_large_image">
+  <?php cb_analytics('head'); ?>
   <link href="<?php echo esc_url(cb_asset('css/normalize.css')); ?>" rel="stylesheet" type="text/css">
   <link href="<?php echo esc_url(cb_asset('css/components.css')); ?>" rel="stylesheet" type="text/css">
   <link href="<?php echo esc_url(cb_asset('css/christiane-buchmann.css')); ?>" rel="stylesheet" type="text/css">
@@ -33,6 +34,7 @@ $wf_page = isset($wf_pages[$page['template']]) ? $wf_pages[$page['template']] : 
   <script type="application/ld+json"><?php echo wp_json_encode($page['schema'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?></script>
 </head>
 <body class="page-<?php echo esc_attr($page['template']); ?>">
+<?php cb_analytics('body'); ?>
 <?php include cb_theme_dir() . '/templates/pages/' . $page['template'] . '.php'; ?>
   <script src="<?php echo esc_url(cb_asset('js/jquery.min.js')); ?>" type="text/javascript"></script>
   <script src="<?php echo esc_url(cb_asset('js/christiane-buchmann.js')); ?>" type="text/javascript"></script>

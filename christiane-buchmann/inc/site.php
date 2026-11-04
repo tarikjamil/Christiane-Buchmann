@@ -103,6 +103,11 @@ return array(
         'documentary' => array('label' => 'Documentary', 'home_anchor' => 'documentaries', 'showcase' => 'https://vimeo.com/showcase/7059957'),
     ),
 
+    /* Analytics — live layout only; preview stays untracked.
+       When GTM is ready, set gtm_id and clear ga4_id (or leave both: GTM wins). */
+    'ga4_id' => 'G-LW6EE8CZ1Y',
+    'gtm_id' => '',
+
     'webflow_site' => '5eb547cb728d3b8acbcb6f7b',
     'webflow_pages' => array(
         'home'      => '5eb547cb728d3be37bcb6f7c',
