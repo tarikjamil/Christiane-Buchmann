@@ -1020,7 +1020,8 @@
         }
       }
 
-      var html = '<span class="pv-ruled__line" aria-hidden="true"></span>';
+      // Marty Supreme — balanced lines only; single rule lives under the title in markup
+      var html = '';
       lines.forEach(function (line) {
         var overflow = !fits(el, line, maxWidth);
         html +=
@@ -1028,8 +1029,7 @@
           (overflow ? ' style="white-space:normal"' : '') +
           '>' +
           line.replace(/&/g, '&amp;').replace(/</g, '&lt;') +
-          '</span>' +
-          '<span class="pv-ruled__line" aria-hidden="true"></span>';
+          '</span>';
       });
       ruled.innerHTML = html;
     }
