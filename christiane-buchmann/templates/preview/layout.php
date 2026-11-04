@@ -9,6 +9,17 @@ $site = cb_site();
   <meta name="robots" content="noindex, nofollow">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta name="theme-color" content="#0a0a0a">
+  <meta property="og:site_name" content="<?php echo esc_attr($site['full_name']); ?>">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="<?php echo esc_attr($page['og_type']); ?>">
+  <meta property="og:title" content="<?php echo esc_attr($page['title']); ?>">
+  <meta property="og:description" content="<?php echo esc_attr($page['description']); ?>">
+  <meta property="og:url" content="<?php echo esc_url($page['canonical']); ?>">
+  <meta property="og:image" content="<?php echo esc_url($page['image']); ?>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?php echo esc_attr($page['title']); ?>">
+  <meta name="twitter:description" content="<?php echo esc_attr($page['description']); ?>">
+  <meta name="twitter:image" content="<?php echo esc_url($page['image']); ?>">
   <link rel="icon" href="<?php echo esc_url(cb_asset('images/favicon.jpg', false)); ?>">
   <link rel="stylesheet" href="<?php echo esc_url(cb_asset('css/preview.css')); ?>">
 <?php

@@ -572,32 +572,34 @@ function cb_preview_dispatch($subpath)
     return cb_preview_render('home', array('status' => 404));
 }
 
+function cb_preview_canonical($template, $vars = array())
+{
+    if ($template === 'home') {
+        return cb_preview_url('');
+    }
+    if ($template === 'project' && !empty($vars['project']['slug'])) {
+        return cb_preview_url('all-projects/' . $vars['project']['slug']);
+    }
+    return cb_preview_url($template);
+}
+
 function cb_preview_render($template, $vars = array())
 {
-    $site = cb_site();
-    $titles = array(
-        'home'      => 'Design preview — Home',
-        'about'     => 'Design preview — About',
-        'portfolio' => 'Design preview — Work',
-        'contact'   => 'Design preview — Contact',
-        'project'   => 'Design preview — Project',
-    );
-    if ($template === 'project' && !empty($vars['project'])) {
-        $titles['project'] = 'Design preview — ' . cb_project_name($vars['project']);
+    $page = array_merge(array(
+        'template'   => $template,
+        'status'     => 200,
+        'is_preview' => true,
+    ), $vars);
+
+    $meta = cb_page_meta($page);
+    $meta['robots'] = 'noindex, nofollow';
+    $meta['canonical'] = cb_preview_canonical($template, $vars);
+    if ($page['status'] === 404) {
+        $meta['title'] = 'Page not found – ' . cb_site('name');
+        $meta['description'] = 'This redesign preview page could not be found.';
     }
 
-    $page = array_merge(array(
-        'template'    => $template,
-        'status'      => 200,
-        'title'       => $titles[$template] . ' | ' . $site['full_name'],
-        'description' => 'Private redesign preview. Not for public indexing.',
-        'robots'      => 'noindex, nofollow',
-        'canonical'   => cb_preview_url($template === 'home' ? '' : ($template === 'project' ? 'all-projects/' . $vars['project']['slug'] : $template)),
-        'og_type'     => 'website',
-        'image'       => cb_asset('images/webclip.jpg', false),
-        'schema'      => array('@context' => 'https://schema.org', '@type' => 'WebPage', 'name' => $titles[$template]),
-        'is_preview'  => true,
-    ), $vars);
+    $page = array_merge($page, $meta);
 
     if (function_exists('status_header')) {
         status_header($page['status']);

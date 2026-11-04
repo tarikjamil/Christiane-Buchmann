@@ -25,13 +25,6 @@
   font-style: normal;
   font-display: swap;
 }
-@font-face {
-  font-family: "Military Scribe";
-  src: url("../fonts/military-scribe.woff2") format("woff2");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
   --pv-ink: #12110f;
@@ -48,7 +41,7 @@
   --pv-black: #0a0a0a;
   --pv-accent: #c45c3e;
   --pv-font: "Neue Montreal", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --pv-font-display: "Military Scribe", "Neue Montreal", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --pv-font-display: "Neue Montreal", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --pv-pad: clamp(1.25rem, 4vw, 3.5rem);
   --pv-max: 92rem;
   --pv-media: 68rem; /* trailer + meta text column */
