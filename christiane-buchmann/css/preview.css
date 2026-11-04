@@ -1057,9 +1057,12 @@ html.lenis, html.lenis body { height: auto; }
 }
 .pv-ptitle__line {
   display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
   /* rem (not em) — tight to rules, clear of umlauts */
   padding: 0.45rem var(--pv-pad) 0.2rem;
-  /* JS balancer sets nowrap once lines fit the viewport */
+  /* JS balancer keeps nowrap when the line fits; overflows may wrap */
   white-space: nowrap;
 }
 @media (max-width: 899px) {
@@ -1230,7 +1233,7 @@ html.lenis, html.lenis body { height: auto; }
 .pv-credits {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch; /* full-width rows so text-align:center is true page center */
   gap: 0.55em;
   text-align: center;
   width: min(calc(100% - 2 * var(--pv-pad)), var(--pv-media));
@@ -1241,7 +1244,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 .pv-credit {
   display: block;
-  max-width: 100%;
+  width: 100%;
   text-align: center;
   white-space: normal;
 }
@@ -1256,7 +1259,7 @@ html.lenis, html.lenis body { height: auto; }
   white-space: nowrap;
 }
 .pv-credit__role::after {
-  content: "\00a0"; /* keep role glued to the first name */
+  content: "\00a0";
 }
 .pv-credit__name {
   margin: 0;
