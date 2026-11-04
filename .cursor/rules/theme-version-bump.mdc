@@ -1,0 +1,13 @@
+---
+description: Bump WordPress theme Version after every design edit
+alwaysApply: true
+---
+
+# Theme version bump
+
+After every design edit (CSS, preview templates, hover/motion, layout, gallery, nav, footer, or related preview JS), bump the patch version in `christiane-buchmann/style.css`.
+
+- Header field: `Version: X.Y.Z`
+- Increment the patch number only: `2.0.0` → `2.0.1` → `2.0.2` …
+- Do this in the same turn as the design change, not later
+- Skip the bump for non-design work (content-only, tooling, pure refactors with no visual change)
