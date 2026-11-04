@@ -1476,12 +1476,9 @@ html.pv-lb-open {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* match thumbnail crop during FLIP; switches to contain when settled */
+  object-fit: cover; /* same crop as thumbnail for the whole FLIP */
   background: #000;
-  transition: object-fit 0s;
-}
-.pv-lb.is-settled .pv-lb__img {
-  object-fit: contain;
+  pointer-events: none;
 }
 .pv-lb__close,
 .pv-lb__nav {
@@ -1498,6 +1495,18 @@ html.pv-lb-open {
   cursor: pointer;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.35s ease, background-color 0.25s ease;
+  pointer-events: none;
+}
+.pv-lb.is-ready .pv-lb__close,
+.pv-lb.is-ready .pv-lb__nav {
+  opacity: 1;
+  pointer-events: auto;
+}
+.pv-lb.is-ready .pv-lb__nav[hidden] {
+  display: none;
+  pointer-events: none;
 }
 .pv-lb__close {
   top: max(0.85rem, env(safe-area-inset-top));

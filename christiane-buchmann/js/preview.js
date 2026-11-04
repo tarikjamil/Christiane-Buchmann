@@ -546,15 +546,15 @@
     } catch (e) { /* ignore bad hrefs */ }
   });
 
-  /* —— Gallery lightbox (FLIP zoom, same motion language as trailer player) —— */
+  /* —— Gallery lightbox (shared-element FLIP, same motion as trailer player) —— */
   (function initGalleryLightbox() {
     var triggers = Array.prototype.slice.call(document.querySelectorAll('[data-pv-lightbox]'));
     if (!triggers.length) return;
 
     var EASE_OUT = 'cubic-bezier(0.16, 1, 0.3, 1)';
     var EASE_IO = 'cubic-bezier(0.65, 0.05, 0.36, 1)';
-    var OPEN_MS = 900;
-    var CLOSE_MS = 720;
+    var OPEN_MS = 1000;
+    var CLOSE_MS = 780;
     var ICON_CLOSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>';
     var ICON_PREV = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5L8 12l6.5 6.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>';
     var ICON_NEXT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5.5L16 12l-6.5 6.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>';
@@ -585,25 +585,26 @@
       next: dialog.querySelector('.pv-lb__next')
     };
     var state = null;
+    var activeAnims = [];
 
     function rectOf(node) {
       return node.getBoundingClientRect();
     }
 
+    /* Uniform scale keeps the crop stable (no stretch) for the whole zoom. */
     function flipTransform(source, target) {
       var sx = source.width / target.width;
       var sy = source.height / target.height;
-      return (
-        'translate(' + (source.left - target.left) + 'px,' + (source.top - target.top) + 'px) ' +
-        'scale(' + sx + ',' + sy + ')'
-      );
+      var s = (sx + sy) / 2;
+      var dx = source.left - target.left + (source.width - target.width * s) / 2;
+      var dy = source.top - target.top + (source.height - target.height * s) / 2;
+      return 'translate3d(' + dx + 'px,' + dy + 'px,0) scale(' + s + ')';
     }
 
-    /* Size lightbox to the thumbnail aspect so FLIP + object-fit:cover stay continuous. */
     function frameRectFromSource(source) {
       var vw = window.innerWidth;
       var vh = window.innerHeight;
-      var pad = vw < 768 ? 16 : 48;
+      var pad = vw < 768 ? 12 : 40;
       var maxW = vw - pad * 2;
       var maxH = vh - pad * 2;
       var ratio = source.width > 0 && source.height > 0 ? source.width / source.height : 16 / 9;
@@ -631,8 +632,35 @@
       el.next.hidden = !many;
     }
 
-    function setCoverMode(on) {
-      dialog.classList.toggle('is-settled', !on);
+    function freezeParallax(trigger, on) {
+      var layer = trigger && trigger.querySelector('[data-pv-parallax-layer]');
+      if (!layer) return;
+      if (on) layer.style.transform = 'translate3d(0,0,0)';
+      else layer.style.transform = '';
+    }
+
+    function cancelAnims() {
+      activeAnims.forEach(function (a) {
+        try { a.cancel(); } catch (e) { /* noop */ }
+      });
+      activeAnims = [];
+    }
+
+    function markReady(on) {
+      dialog.classList.toggle('is-ready', !!on);
+    }
+
+    function measureSource(trigger) {
+      var frame = trigger.querySelector('.pv-gallery__frame') || trigger;
+      freezeParallax(trigger, true);
+      var source = rectOf(frame);
+      return {
+        left: source.left,
+        top: source.top,
+        width: source.width,
+        height: source.height,
+        bottom: source.bottom
+      };
     }
 
     function setSlide(index, animateSwap) {
@@ -641,107 +669,102 @@
       var trigger = triggers[i];
       var src = trigger.getAttribute('data-pv-lightbox-src') || '';
       var alt = trigger.getAttribute('data-pv-lightbox-alt') || '';
-      if (state.trigger) {
+      if (state.trigger && state.trigger !== trigger) {
         var prevItem = state.trigger.closest('.pv-gallery__item');
         if (prevItem) prevItem.classList.remove('is-lightbox-open');
+        freezeParallax(state.trigger, false);
       }
       state.index = i;
       state.trigger = trigger;
       var nextItem = trigger.closest('.pv-gallery__item');
       if (nextItem) nextItem.classList.add('is-lightbox-open');
-      var frame = trigger.querySelector('.pv-gallery__frame') || trigger;
-      var source = rectOf(frame);
-      state.source = {
-        left: source.left,
-        top: source.top,
-        width: source.width,
-        height: source.height,
-        bottom: source.bottom
-      };
+      state.source = measureSource(trigger);
       el.img.alt = alt;
       dialog.setAttribute('aria-label', alt || 'Still');
-      setCoverMode(true);
       if (!animateSwap) {
         el.img.src = src;
         return;
       }
+      markReady(false);
       el.img.style.opacity = '0';
-      el.img.onload = function () {
+      var apply = function () {
         placeFrame(state.source);
         el.img.style.opacity = '';
         el.img.onload = null;
-        requestAnimationFrame(function () { setCoverMode(false); });
+        markReady(true);
       };
+      el.img.onload = apply;
       el.img.src = src;
-      if (el.img.complete) {
-        placeFrame(state.source);
-        el.img.style.opacity = '';
-        el.img.onload = null;
-        requestAnimationFrame(function () { setCoverMode(false); });
-      }
+      if (el.img.complete) apply();
     }
 
     function open(trigger) {
       if (state) return;
       var index = triggers.indexOf(trigger);
       if (index < 0) index = 0;
-      var frame = trigger.querySelector('.pv-gallery__frame') || trigger;
-      var source = rectOf(frame);
+      var source = measureSource(trigger);
       state = {
         trigger: trigger,
         index: index,
-        source: {
-          left: source.left,
-          top: source.top,
-          width: source.width,
-          height: source.height,
-          bottom: source.bottom
-        },
+        source: source,
         closing: false
       };
-      setCoverMode(true);
+      markReady(false);
       setSlide(index, false);
       syncNav();
       document.documentElement.classList.add('pv-lb-open');
       dialog.hidden = false;
+      el.backdrop.style.opacity = '0';
+      el.frame.style.opacity = '0';
       dialog.focus({ preventScroll: true });
 
       var runZoom = function () {
+        if (!state || state.closing) return;
         var target = placeFrame(state.source);
-        el.frame.style.willChange = 'transform';
-        el.backdrop.style.opacity = '0';
+        el.frame.style.willChange = 'transform, opacity';
+        el.frame.style.opacity = '1';
+        el.frame.style.borderRadius = '0.35rem';
+
         if (!reduce && el.frame.animate && source.width > 0) {
           var from = flipTransform(source, target);
           el.frame.style.transform = from;
-          el.frame.style.borderRadius = '0.35rem';
+          /* Force style flush so the inverted frame is painted before play. */
+          void el.frame.offsetWidth;
+          cancelAnims();
           var frameAnim = el.frame.animate(
-            { transform: [from, 'none'], borderRadius: ['0.35rem', '0.35rem'] },
+            [
+              { transform: from, offset: 0 },
+              { transform: 'translate3d(0,0,0) scale(1)', offset: 1 }
+            ],
             { duration: OPEN_MS, easing: EASE_OUT, fill: 'forwards' }
           );
           var backdropAnim = el.backdrop.animate(
             { opacity: [0, 1] },
-            { duration: OPEN_MS * 0.75, easing: 'ease-out', fill: 'forwards' }
+            { duration: OPEN_MS * 0.7, easing: EASE_OUT, fill: 'forwards' }
           );
+          activeAnims = [frameAnim, backdropAnim];
           frameAnim.finished.then(function () {
-            el.frame.style.transform = '';
+            el.frame.style.transform = 'none';
             el.frame.style.willChange = '';
             el.backdrop.style.opacity = '';
-            frameAnim.cancel();
-            backdropAnim.cancel();
-            setCoverMode(false);
-          }).catch(function () { setCoverMode(false); });
+            cancelAnims();
+            markReady(true);
+          }).catch(function () { markReady(true); });
         } else {
+          el.frame.style.transform = 'none';
           el.backdrop.style.opacity = '';
-          setCoverMode(false);
+          markReady(true);
         }
       };
 
-      if (el.img.complete && el.img.naturalWidth) {
+      var start = function () {
         requestAnimationFrame(function () { requestAnimationFrame(runZoom); });
-      } else {
+      };
+      if (el.img.complete && el.img.naturalWidth) start();
+      else {
         el.img.onload = function () {
           el.img.onload = null;
-          requestAnimationFrame(function () { requestAnimationFrame(runZoom); });
+          start();
         };
       }
     }
@@ -751,48 +774,52 @@
       state.closing = true;
       var session = state;
       var item = session.trigger && session.trigger.closest('.pv-gallery__item');
-      setCoverMode(true);
+      markReady(false);
+      cancelAnims();
 
       var finish = function () {
         state = null;
         el.frame.style.transform = '';
+        el.frame.style.opacity = '';
         el.frame.style.willChange = '';
         el.backdrop.style.opacity = '';
-        dialog.classList.remove('is-settled');
         dialog.hidden = true;
         document.documentElement.classList.remove('pv-lb-open');
         if (item) item.classList.remove('is-lightbox-open');
+        freezeParallax(session.trigger, false);
         if (session.trigger) session.trigger.focus({ preventScroll: true });
       };
 
-      var source = rectOf(session.trigger.querySelector('.pv-gallery__frame') || session.trigger);
+      var source = measureSource(session.trigger);
       if (!(source.width > 0) && session.source) source = session.source;
       var sourceBottom = source.bottom != null ? source.bottom : source.top + source.height;
       var onScreen = sourceBottom > 0 && source.top < window.innerHeight && source.width > 0;
 
-      /* Wait a frame so cover mode is painted before FLIP-out. */
-      requestAnimationFrame(function () {
-        if (!reduce && el.frame.animate && onScreen) {
-          var target = placeFrame(session.source);
-          var to = flipTransform(source, target);
-          el.frame.style.willChange = 'transform';
-          var frameAnim = el.frame.animate(
-            { transform: ['none', to], borderRadius: ['0.35rem', '0.35rem'] },
-            { duration: CLOSE_MS, easing: EASE_IO, fill: 'forwards' }
-          );
-          var backdropAnim = el.backdrop.animate(
-            { opacity: [1, 0] },
-            { duration: CLOSE_MS * 0.85, easing: 'ease-in', fill: 'forwards' }
-          );
-          frameAnim.finished.then(function () {
-            frameAnim.cancel();
-            backdropAnim.cancel();
-            finish();
-          }).catch(finish);
-        } else {
+      if (!reduce && el.frame.animate && onScreen) {
+        var target = placeFrame(session.source);
+        var to = flipTransform(source, target);
+        el.frame.style.willChange = 'transform, opacity';
+        el.frame.style.transform = 'none';
+        void el.frame.offsetWidth;
+        var frameAnim = el.frame.animate(
+          [
+            { transform: 'translate3d(0,0,0) scale(1)', offset: 0 },
+            { transform: to, offset: 1 }
+          ],
+          { duration: CLOSE_MS, easing: EASE_IO, fill: 'forwards' }
+        );
+        var backdropAnim = el.backdrop.animate(
+          { opacity: [1, 0] },
+          { duration: CLOSE_MS * 0.85, easing: EASE_IO, fill: 'forwards' }
+        );
+        activeAnims = [frameAnim, backdropAnim];
+        frameAnim.finished.then(function () {
+          cancelAnims();
           finish();
-        }
-      });
+        }).catch(finish);
+      } else {
+        finish();
+      }
     }
 
     triggers.forEach(function (btn) {
@@ -803,15 +830,15 @@
       node.addEventListener('click', close);
     });
     el.prev.addEventListener('click', function () {
-      if (!state) return;
+      if (!state || state.closing) return;
       setSlide(state.index - 1, true);
     });
     el.next.addEventListener('click', function () {
-      if (!state) return;
+      if (!state || state.closing) return;
       setSlide(state.index + 1, true);
     });
     document.addEventListener('keydown', function (e) {
-      if (!state) return;
+      if (!state || state.closing) return;
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowLeft') setSlide(state.index - 1, true);
       if (e.key === 'ArrowRight') setSlide(state.index + 1, true);
