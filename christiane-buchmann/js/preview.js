@@ -599,31 +599,25 @@
       );
     }
 
-    function naturalSize(img) {
-      var nw = img.naturalWidth || 0;
-      var nh = img.naturalHeight || 0;
-      if (!(nw > 0 && nh > 0)) return { w: 16, h: 9 };
-      return { w: nw, h: nh };
-    }
-
-    function frameRectFor(img) {
+    /* Size lightbox to the thumbnail aspect so FLIP + object-fit:cover stay continuous. */
+    function frameRectFromSource(source) {
       var vw = window.innerWidth;
       var vh = window.innerHeight;
       var pad = vw < 768 ? 16 : 48;
-      var size = naturalSize(img);
       var maxW = vw - pad * 2;
       var maxH = vh - pad * 2;
+      var ratio = source.width > 0 && source.height > 0 ? source.width / source.height : 16 / 9;
       var w = maxW;
-      var h = (w * size.h) / size.w;
+      var h = w / ratio;
       if (h > maxH) {
         h = maxH;
-        w = (h * size.w) / size.h;
+        w = h * ratio;
       }
       return { left: (vw - w) / 2, top: (vh - h) / 2, width: w, height: h };
     }
 
-    function placeFrame() {
-      var r = frameRectFor(el.img);
+    function placeFrame(source) {
+      var r = frameRectFromSource(source || (state && state.source) || { width: 16, height: 9 });
       el.frame.style.left = r.left + 'px';
       el.frame.style.top = r.top + 'px';
       el.frame.style.width = r.width + 'px';
@@ -635,6 +629,10 @@
       var many = triggers.length > 1;
       el.prev.hidden = !many;
       el.next.hidden = !many;
+    }
+
+    function setCoverMode(on) {
+      dialog.classList.toggle('is-settled', !on);
     }
 
     function setSlide(index, animateSwap) {
@@ -651,24 +649,35 @@
       state.trigger = trigger;
       var nextItem = trigger.closest('.pv-gallery__item');
       if (nextItem) nextItem.classList.add('is-lightbox-open');
-      state.source = rectOf(trigger.querySelector('.pv-gallery__frame') || trigger);
+      var frame = trigger.querySelector('.pv-gallery__frame') || trigger;
+      var source = rectOf(frame);
+      state.source = {
+        left: source.left,
+        top: source.top,
+        width: source.width,
+        height: source.height,
+        bottom: source.bottom
+      };
       el.img.alt = alt;
       dialog.setAttribute('aria-label', alt || 'Still');
+      setCoverMode(true);
       if (!animateSwap) {
         el.img.src = src;
         return;
       }
       el.img.style.opacity = '0';
       el.img.onload = function () {
-        placeFrame();
+        placeFrame(state.source);
         el.img.style.opacity = '';
         el.img.onload = null;
+        requestAnimationFrame(function () { setCoverMode(false); });
       };
       el.img.src = src;
       if (el.img.complete) {
-        placeFrame();
+        placeFrame(state.source);
         el.img.style.opacity = '';
         el.img.onload = null;
+        requestAnimationFrame(function () { setCoverMode(false); });
       }
     }
 
@@ -681,9 +690,16 @@
       state = {
         trigger: trigger,
         index: index,
-        source: { left: source.left, top: source.top, width: source.width, height: source.height, bottom: source.bottom },
+        source: {
+          left: source.left,
+          top: source.top,
+          width: source.width,
+          height: source.height,
+          bottom: source.bottom
+        },
         closing: false
       };
+      setCoverMode(true);
       setSlide(index, false);
       syncNav();
       document.documentElement.classList.add('pv-lb-open');
@@ -691,7 +707,7 @@
       dialog.focus({ preventScroll: true });
 
       var runZoom = function () {
-        var target = placeFrame();
+        var target = placeFrame(state.source);
         el.frame.style.willChange = 'transform';
         el.backdrop.style.opacity = '0';
         if (!reduce && el.frame.animate && source.width > 0) {
@@ -712,9 +728,11 @@
             el.backdrop.style.opacity = '';
             frameAnim.cancel();
             backdropAnim.cancel();
-          }).catch(function () {});
+            setCoverMode(false);
+          }).catch(function () { setCoverMode(false); });
         } else {
           el.backdrop.style.opacity = '';
+          setCoverMode(false);
         }
       };
 
@@ -733,12 +751,14 @@
       state.closing = true;
       var session = state;
       var item = session.trigger && session.trigger.closest('.pv-gallery__item');
+      setCoverMode(true);
 
       var finish = function () {
         state = null;
         el.frame.style.transform = '';
         el.frame.style.willChange = '';
         el.backdrop.style.opacity = '';
+        dialog.classList.remove('is-settled');
         dialog.hidden = true;
         document.documentElement.classList.remove('pv-lb-open');
         if (item) item.classList.remove('is-lightbox-open');
@@ -750,26 +770,29 @@
       var sourceBottom = source.bottom != null ? source.bottom : source.top + source.height;
       var onScreen = sourceBottom > 0 && source.top < window.innerHeight && source.width > 0;
 
-      if (!reduce && el.frame.animate && onScreen) {
-        var target = placeFrame();
-        var to = flipTransform(source, target);
-        el.frame.style.willChange = 'transform';
-        var frameAnim = el.frame.animate(
-          { transform: ['none', to], borderRadius: ['0.35rem', '0.35rem'] },
-          { duration: CLOSE_MS, easing: EASE_IO, fill: 'forwards' }
-        );
-        var backdropAnim = el.backdrop.animate(
-          { opacity: [1, 0] },
-          { duration: CLOSE_MS * 0.85, easing: 'ease-in', fill: 'forwards' }
-        );
-        frameAnim.finished.then(function () {
-          frameAnim.cancel();
-          backdropAnim.cancel();
+      /* Wait a frame so cover mode is painted before FLIP-out. */
+      requestAnimationFrame(function () {
+        if (!reduce && el.frame.animate && onScreen) {
+          var target = placeFrame(session.source);
+          var to = flipTransform(source, target);
+          el.frame.style.willChange = 'transform';
+          var frameAnim = el.frame.animate(
+            { transform: ['none', to], borderRadius: ['0.35rem', '0.35rem'] },
+            { duration: CLOSE_MS, easing: EASE_IO, fill: 'forwards' }
+          );
+          var backdropAnim = el.backdrop.animate(
+            { opacity: [1, 0] },
+            { duration: CLOSE_MS * 0.85, easing: 'ease-in', fill: 'forwards' }
+          );
+          frameAnim.finished.then(function () {
+            frameAnim.cancel();
+            backdropAnim.cancel();
+            finish();
+          }).catch(finish);
+        } else {
           finish();
-        }).catch(finish);
-      } else {
-        finish();
-      }
+        }
+      });
     }
 
     triggers.forEach(function (btn) {
